@@ -9,6 +9,7 @@ public class Run {
     public static void main(String[] args) {
         Bank bank = new Bank();
         Client kostya = new Client("Kostya", Gender.Male);
+        Client vasya = new Client("Vasya", Gender.Female);
         SavingAccount sv = new SavingAccount(1000);
         CheckingAccount ck = new CheckingAccount(450, 200);
         kostya.addAccount(sv);
