@@ -6,6 +6,14 @@ package ua.spalah.bank;
 public abstract class Account {
     double balance;
 
+    public Account(double balance) {
+        if (balance <= 0) {
+            System.out.println("Initial balance is less than 0!");
+        } else {
+            this.balance = balance;
+        }
+    }
+
     public double getBalance() {
         return balance;
     }

@@ -6,7 +6,7 @@ package ua.spalah.bank;
 public class SavingAccount extends Account {
 
     public SavingAccount(double balance) {
-        this.balance = balance;
+        super(balance);
     }
 
     @Override

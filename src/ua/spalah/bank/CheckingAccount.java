@@ -7,7 +7,7 @@ public class CheckingAccount extends Account {
     double overdraft; //задолженность.
 
     public CheckingAccount(double balance, double overdraft) {
-        this.balance = balance;
+        super(balance);
         this.overdraft = overdraft;
     }
 
@@ -22,6 +22,6 @@ public class CheckingAccount extends Account {
 
     @Override
     public String toString() {
-        return "CheckingAccount <-> balance: " + balance + " <-> overdraft: " + overdraft;
+        return "CheckingAccount <-> balance: " + balance + ", overdraft: " + overdraft;
     }
 }

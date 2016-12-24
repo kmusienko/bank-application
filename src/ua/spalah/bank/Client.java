@@ -1,6 +1,7 @@
 package ua.spalah.bank;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Kostya on 23.12.2016.
@@ -52,6 +53,19 @@ public class Client {
         return "Name: " + name + ".\nGender: " + gender + ".\nAccounts: " + accounts + "\nActive account: " + activeAccount;
     }
 
+    @Override
+    public boolean equals(Object otherObject) {
+        if (this == otherObject) return true;
+        if (otherObject == null) return false;
+        if (getClass() != otherObject.getClass()) return false;
+        Client other = (Client) otherObject;
+        return Objects.equals(name, other.name) && Objects.equals(gender, other.gender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, gender);
+    }
 
 
 }
