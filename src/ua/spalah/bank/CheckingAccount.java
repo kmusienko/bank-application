@@ -4,24 +4,28 @@ package ua.spalah.bank;
  * Created by Kostya on 23.12.2016.
  */
 public class CheckingAccount extends Account {
-    double overdraft; //задолженность.
+   private double overdraft; //задолженность.
 
     public CheckingAccount(double balance, double overdraft) {
-        this.balance = balance;
-        this.overdraft = overdraft;
+        super(balance);
+        if (overdraft < 0) {
+            System.out.println("Overdraft < 0!");
+        } else {
+            this.overdraft = overdraft;
+        }
     }
 
     @Override
     public void withdrawMoney(double money) {
-        if (balance - money < 0 && Math.abs(balance - money) > overdraft) {
+        if (getBalance() + overdraft < money) {
             System.out.println("Out of overdraft limit.");
         } else {
-            balance -= money;
+            setBalance(getBalance()-money);
         }
     }
 
     @Override
     public String toString() {
-        return "CheckingAccount <-> balance: " + balance + " <-> overdraft: " + overdraft;
+        return "CheckingAccount <-> balance: " + getBalance() + ", overdraft: " + overdraft;
     }
 }

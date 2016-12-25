@@ -6,20 +6,11 @@ package ua.spalah.bank;
 public class SavingAccount extends Account {
 
     public SavingAccount(double balance) {
-        this.balance = balance;
-    }
-
-    @Override
-    public void withdrawMoney(double money) {
-        if (money > balance) {
-            System.out.println("You want too much money.");
-        } else {
-            balance -= money;
-        }
+        super(balance);
     }
 
     @Override
     public String toString() {
-        return "SavingAccount <-> balance: " + balance;
+        return "SavingAccount <-> balance: " + getBalance();
     }
 }

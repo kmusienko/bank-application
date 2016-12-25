@@ -6,7 +6,8 @@ import java.util.ArrayList;
  * Created by Kostya on 23.12.2016.
  */
 public class Bank {
-    ArrayList<Client> clients = new ArrayList<>();
+
+    private ArrayList<Client> clients = new ArrayList<>();
 
     public void addClient(Client client) {
         clients.add(client);
