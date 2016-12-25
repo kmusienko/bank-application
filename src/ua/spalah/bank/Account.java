@@ -4,7 +4,7 @@ package ua.spalah.bank;
  * Created by Kostya on 23.12.2016.
  */
 public abstract class Account {
-    double balance;
+    protected double balance;
 
     public Account(double balance) {
         if (balance <= 0) {

@@ -8,9 +8,9 @@ import java.util.Scanner;
 public class Run {
     public static void main(String[] args) {
         Bank bank = new Bank();
-        Client kostya = new Client("Kostya", Gender.Male);
-        Client vasya = new Client("Vasya", Gender.Female);
-        Client vasya2 = new Client("Kostya", Gender.Male);
+        Client kostya = new Client("Kostya", Gender.MALE);
+        Client vasya = new Client("Vasya", Gender.FEMALE);
+        Client vasya2 = new Client("Kostya", Gender.MALE);
 
         SavingAccount sv = new SavingAccount(1000);
         CheckingAccount ck = new CheckingAccount(450, 200);

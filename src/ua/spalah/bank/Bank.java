@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Bank {
 
-    ArrayList<Client> clients = new ArrayList<>();
+    private ArrayList<Client> clients = new ArrayList<>();
 
     public void addClient(Client client) {
         clients.add(client);

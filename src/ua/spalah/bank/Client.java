@@ -7,10 +7,10 @@ import java.util.Objects;
  * Created by Kostya on 23.12.2016.
  */
 public class Client {
-    String name;
-    Gender gender;
-    ArrayList<Account> accounts = new ArrayList<>();
-    Account activeAccount;
+    private String name;
+    private Gender gender;
+    private ArrayList<Account> accounts = new ArrayList<>();
+    private Account activeAccount;
 
     public Client(String name, Gender gender) {
         this.name = name;
