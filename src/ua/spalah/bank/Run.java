@@ -25,5 +25,7 @@ public class Run {
         System.out.println(kostya.equals(vasya2));
         System.out.println(kostya.hashCode());
         System.out.println(vasya2.hashCode());
+        ck.withdrawMoney(800);
+        System.out.println(ck.getBalance());
     }
 }

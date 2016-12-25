@@ -10,16 +10,7 @@ public class SavingAccount extends Account {
     }
 
     @Override
-    public void withdrawMoney(double money) {
-        if (money > balance) {
-            System.out.println("You want too much money.");
-        } else {
-            balance -= money;
-        }
-    }
-
-    @Override
     public String toString() {
-        return "SavingAccount <-> balance: " + balance;
+        return "SavingAccount <-> balance: " + getBalance();
     }
 }
