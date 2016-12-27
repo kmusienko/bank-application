@@ -1,5 +1,7 @@
 package ua.spalah.bank;
 
+import ua.spalah.bank.accounts.Account;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -9,8 +11,8 @@ import java.util.Objects;
 public class Client {
     private String name;
     private Gender gender;
-    private ArrayList<Account> accounts = new ArrayList<>();
     private Account activeAccount;
+    private ArrayList<Account> accounts = new ArrayList<>();
 
     public Client(String name, Gender gender) {
         this.name = name;
@@ -25,20 +27,20 @@ public class Client {
         accounts.add(account);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
     public void setActiveAccount(Account account) {
         if (accounts.contains(account)) {
             activeAccount = account;
         } else {
             System.out.println("Account hasn't been created.");
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 
     public double getTotalBalance() {
@@ -49,8 +51,14 @@ public class Client {
         return totalBalance;
     }
 
+    @Override
     public String toString() {
-        return "Name: " + name + ".\nGender: " + gender + ".\nAccounts: " + accounts + "\nActive account: " + activeAccount;
+        return "Client{" +
+                "name=" + name +
+                ",\n gender=" + gender +
+                ",\n activeAccount=" + activeAccount +
+                ",\n accounts=" + accounts +
+                '}';
     }
 
     @Override
