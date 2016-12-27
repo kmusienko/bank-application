@@ -1,6 +1,8 @@
 package ua.spalah.bank;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Kostya on 23.12.2016.
@@ -13,17 +15,16 @@ public class Bank {
         clients.add(client);
     }
 
-    public ArrayList<Client> getAllClients() {
-        return clients;
+    public List<Client> getAllClients() {
+        return Collections.unmodifiableList(clients);
     }
 
     public String getClientInfo(String name) {
-        String info = "";
         for (Client client : clients) {
             if (client.getName().equals(name)) {
-                info = client.toString();
+                return client.toString();
             }
         }
-        return info;
+        return "client not found";
     }
 }

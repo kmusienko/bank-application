@@ -1,5 +1,8 @@
 package ua.spalah.bank;
 
+import ua.spalah.bank.accounts.CheckingAccount;
+import ua.spalah.bank.accounts.SavingAccount;
+
 import java.util.Scanner;
 
 /**
@@ -18,6 +21,7 @@ public class Run {
         kostya.addAccount(ck);
         kostya.setActiveAccount(ck);
         bank.addClient(kostya);
+        //bank.addClient(vasya);
         Scanner sc = new Scanner(System.in);
         System.out.println("Type client's name: ");
         String name = sc.nextLine();
@@ -25,7 +29,9 @@ public class Run {
         System.out.println(kostya.equals(vasya2));
         System.out.println(kostya.hashCode());
         System.out.println(vasya2.hashCode());
-        ck.withdrawMoney(800);
+        ck.withdraw(800);
         System.out.println(ck.getBalance());
+
+        System.out.println(Gender.MALE.getSalutation());
     }
 }
