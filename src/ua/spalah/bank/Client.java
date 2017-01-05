@@ -3,12 +3,14 @@ package ua.spalah.bank;
 import ua.spalah.bank.accounts.Account;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by Kostya on 23.12.2016.
  */
-public class Client {
+public class Client implements Comparable<Client> {
     private String name;
     private Gender gender;
     private Account activeAccount;
@@ -75,5 +77,12 @@ public class Client {
         return Objects.hash(name, gender);
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
 
+    @Override
+    public int compareTo(Client c) {
+        return this.getName().compareTo(c.getName());
+    }
 }
