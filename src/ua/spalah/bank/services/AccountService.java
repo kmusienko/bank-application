@@ -1,4 +1,4 @@
-package ua.spalah.bank;
+package ua.spalah.bank.services;
 
 import ua.spalah.bank.accounts.Account;
 

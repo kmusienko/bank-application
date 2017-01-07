@@ -1,4 +1,7 @@
-package ua.spalah.bank;
+package ua.spalah.bank.services;
+
+import ua.spalah.bank.Bank;
+import ua.spalah.bank.Client;
 
 import java.util.List;
 

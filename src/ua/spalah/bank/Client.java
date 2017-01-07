@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * Created by Kostya on 23.12.2016.
  */
-public class Client implements Comparable<Client> {
+public class Client {
     private String name;
     private Gender gender;
     private Account activeAccount;
@@ -81,8 +81,4 @@ public class Client implements Comparable<Client> {
         return accounts;
     }
 
-    @Override
-    public int compareTo(Client c) {
-        return this.getName().compareTo(c.getName());
-    }
 }

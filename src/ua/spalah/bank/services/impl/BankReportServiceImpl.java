@@ -1,7 +1,9 @@
-package ua.spalah.bank;
+package ua.spalah.bank.services.impl;
 
+import ua.spalah.bank.Bank;
+import ua.spalah.bank.Client;
 import ua.spalah.bank.accounts.Account;
-
+import ua.spalah.bank.services.BankReportService;
 
 import java.util.*;
 
@@ -47,8 +49,14 @@ public class BankReportServiceImpl implements BankReportService {
 
     @Override
     public List<Client> getClientsSortedByName(Bank bank) {
-        List<Client> clients = bank.getAllClients();
-        Collections.sort(clients);
+        List<Client> clients = new ArrayList<>(bank.getAllClients());
+        Collections.sort(clients, new Comparator<Client>() {
+            @Override
+            public int compare(Client o1, Client o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+
         return clients;
     }
 }
