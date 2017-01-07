@@ -3,6 +3,8 @@ package ua.spalah.bank;
 import ua.spalah.bank.accounts.Account;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -75,5 +77,8 @@ public class Client {
         return Objects.hash(name, gender);
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
 
 }

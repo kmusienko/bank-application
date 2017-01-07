@@ -1,8 +1,8 @@
 package ua.spalah.bank;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import ua.spalah.bank.listeners.ClientRegistrationListener;
+
+import java.util.*;
 
 /**
  * Created by Kostya on 23.12.2016.
@@ -10,9 +10,13 @@ import java.util.List;
 public class Bank {
 
     private ArrayList<Client> clients = new ArrayList<>();
+    private List<ClientRegistrationListener> listeners = new ArrayList<>();
 
     public void addClient(Client client) {
         clients.add(client);
+        for (ClientRegistrationListener listener : listeners) {
+            listener.onClientAdded(client);
+        }
     }
 
     public List<Client> getAllClients() {
@@ -26,5 +30,15 @@ public class Bank {
             }
         }
         return "client not found";
+    }
+
+    public void addListener(ClientRegistrationListener listener) {
+        listeners.add(listener);
+    }
+
+    public void deleteClient(Client client) {
+        if (clients.contains(client)) {
+            clients.remove(client);
+        }
     }
 }
