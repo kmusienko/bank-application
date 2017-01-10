@@ -1,9 +1,8 @@
-package ua.spalah.bank;
+package ua.spalah.bank.models;
 
-import ua.spalah.bank.accounts.Account;
+import ua.spalah.bank.models.accounts.Account;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,12 +21,12 @@ public class Client {
 
     }
 
-    public void addAccount(Account account) {
-        if (accounts.size() == 0) {
-            activeAccount = account;
-        }
-        accounts.add(account);
-    }
+//    public void addAccount(Account account) {
+//        if (accounts.size() == 0) {
+//            activeAccount = account;
+//        }
+//        accounts.add(account);
+//    }
 
     public void setActiveAccount(Account account) {
         if (accounts.contains(account)) {
@@ -45,13 +44,13 @@ public class Client {
         return gender;
     }
 
-    public double getTotalBalance() {
-        double totalBalance = 0;
-        for (Account account : accounts) {
-            totalBalance += account.getBalance();
-        }
-        return totalBalance;
-    }
+//    public double getTotalBalance() {
+//        double totalBalance = 0;
+//        for (Account account : accounts) {
+//            totalBalance += account.getBalance();
+//        }
+//        return totalBalance;
+//    }
 
     @Override
     public String toString() {

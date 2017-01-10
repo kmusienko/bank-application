@@ -1,4 +1,4 @@
-package ua.spalah.bank;
+package ua.spalah.bank.models;
 
 import ua.spalah.bank.listeners.ClientRegistrationListener;
 
@@ -20,9 +20,11 @@ public class Bank {
     }
 
     public List<Client> getAllClients() {
-        return Collections.unmodifiableList(clients);
+        return Collections.unmodifiableList(clients); //стоит ли использовать??
     }
-
+    public List<Client> getClients() {
+        return clients;
+    }
     public String getClientInfo(String name) {
         for (Client client : clients) {
             if (client.getName().equals(name)) {
@@ -36,9 +38,9 @@ public class Bank {
         listeners.add(listener);
     }
 
-    public void deleteClient(Client client) {
-        if (clients.contains(client)) {
-            clients.remove(client);
-        }
-    }
+//    public void deleteClient(Client client) {
+//        if (clients.contains(client)) {
+//            clients.remove(client);
+//        }
+//    }
 }

@@ -1,7 +1,8 @@
 package ua.spalah.bank.services.impl;
 
-import ua.spalah.bank.Bank;
-import ua.spalah.bank.Client;
+import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.models.Client;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;
@@ -28,12 +29,32 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client saveClient(Bank bank, Client client) {
-        bank.addClient(client);
+        bank.getClients().add(client);
         return client;
     }
 
     @Override
     public void deleteClient(Bank bank, Client client) {
-        bank.deleteClient(client);
+        if (bank.getClients().contains(client)) {
+            bank.getClients().remove(client);
+        }
+    }
+
+    @Override
+    public void addAccount(Client client, Account account) {
+        client.getAccounts().add(account);
+        if (client.getAccounts().size() == 1) {
+            client.setActiveAccount(account);
+        }
+
+    }
+
+    @Override
+    public double getTotalBalance(Client client) {
+        double totalBalance = 0;
+        for (Account account : client.getAccounts()) {
+            totalBalance += account.getBalance();
+        }
+        return totalBalance;
     }
 }

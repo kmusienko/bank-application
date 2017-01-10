@@ -1,6 +1,6 @@
 package ua.spalah.bank.services;
 
-import ua.spalah.bank.accounts.Account;
+import ua.spalah.bank.models.accounts.Account;
 
 /**
  * Created by Kostya on 05.01.2017.

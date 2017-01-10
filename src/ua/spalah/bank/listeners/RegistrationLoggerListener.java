@@ -1,6 +1,6 @@
 package ua.spalah.bank.listeners;
 
-import ua.spalah.bank.Client;
+import ua.spalah.bank.models.Client;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
