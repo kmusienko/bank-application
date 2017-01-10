@@ -1,5 +1,7 @@
 package ua.spalah.bank.models.accounts;
 
+import ua.spalah.bank.models.type.AccountType;
+
 /**
  * Created by Kostya on 23.12.2016.
  */
@@ -31,6 +33,5 @@ public class SavingAccount implements Account {
     @Override
     public void setBalance(double balance) {
         this.balance = balance;
-
     }
 }

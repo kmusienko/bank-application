@@ -1,15 +1,13 @@
 package ua.spalah.bank;
 
 import ua.spalah.bank.models.accounts.*;
-import ua.spalah.bank.listeners.*;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
-import ua.spalah.bank.models.Gender;
+import ua.spalah.bank.models.type.AccountType;
+import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
 import ua.spalah.bank.services.impl.BankReportServiceImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
-
-import java.util.Scanner;
 
 /**
  * Created by Kostya on 23.12.2016.

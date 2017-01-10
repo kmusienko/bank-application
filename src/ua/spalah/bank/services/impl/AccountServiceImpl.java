@@ -2,7 +2,7 @@ package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.exceptions.OverdraftLimitExceededException;
-import ua.spalah.bank.models.accounts.AccountType;
+import ua.spalah.bank.models.type.AccountType;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.services.AccountService;
@@ -14,11 +14,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deposit(Account account, double amount) {
 
-        if (amount < 0) {
-            throw new IllegalArgumentException("Amount can't be negative.");
-        } else {
+        if (amount < 0) throw new IllegalArgumentException("Amount can't be negative.");
             account.setBalance(account.getBalance() + amount);
-        }
     }
 
     @Override

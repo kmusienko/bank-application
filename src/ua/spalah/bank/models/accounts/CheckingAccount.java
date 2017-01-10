@@ -1,5 +1,7 @@
 package ua.spalah.bank.models.accounts;
 
+import ua.spalah.bank.models.type.AccountType;
+
 /**
  * Created by Kostya on 23.12.2016.
  */

@@ -1,6 +1,7 @@
 package ua.spalah.bank.models;
 
 import ua.spalah.bank.models.accounts.Account;
+import ua.spalah.bank.models.type.Gender;
 
 import java.util.ArrayList;
 import java.util.List;
