@@ -25,6 +25,7 @@ public class Run {
         Account savingAccount = new SavingAccount(100, AccountType.SAVING);
 
         ClientServiceImpl clientService = new ClientServiceImpl();
+        clientService.addAccount(kostya, savingAccount);
         clientService.saveClient(bank, kostya);
         clientService.saveClient(bank, vasya);
         BankReportServiceImpl bankReportService = new BankReportServiceImpl();
