@@ -1,5 +1,7 @@
 package ua.spalah.bank.services.impl;
 
+import ua.spalah.bank.exceptions.NotEnoughFundsException;
+import ua.spalah.bank.exceptions.OverdraftLimitExceededException;
 import ua.spalah.bank.models.accounts.AccountType;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
@@ -12,19 +14,20 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deposit(Account account, double amount) {
 
-        if (amount <= 0) {
-            System.out.println("You want to add no money!");
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount can't be negative.");
         } else {
             account.setBalance(account.getBalance() + amount);
         }
     }
 
     @Override
-    public void withdraw(Account account, double amount) {
+    public void withdraw(Account account, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException {
+        if (amount < 0) throw new IllegalArgumentException("Amount can't be negative.");
         AccountType accountType = account.getType();
         if (accountType == AccountType.SAVING) {
             if (amount > account.getBalance()) {
-                System.out.println("You want too much money.");
+                throw new NotEnoughFundsException("You want too much money.");
             }
             else {
                 account.setBalance(account.getBalance() - amount);
@@ -33,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
         else if (accountType == AccountType.CHECKING) {
             double available = account.getBalance() + ((CheckingAccount) account).getOverdraft();
             if (available < amount) {
-                System.out.println("Out of overdraft limit.");
+                throw new OverdraftLimitExceededException("Out of overdraft limit.");
             } else {
                 account.setBalance(account.getBalance() - amount);
             }
@@ -41,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void transfer(Account fromAccount, Account toAccount, double amount) {
+    public void transfer(Account fromAccount, Account toAccount, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException{
         withdraw(fromAccount, amount);
         deposit(toAccount, amount);
     }

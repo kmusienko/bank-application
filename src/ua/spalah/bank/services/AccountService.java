@@ -1,5 +1,7 @@
 package ua.spalah.bank.services;
 
+import ua.spalah.bank.exceptions.NotEnoughFundsException;
+import ua.spalah.bank.exceptions.OverdraftLimitExceededException;
 import ua.spalah.bank.models.accounts.Account;
 
 /**
@@ -7,6 +9,6 @@ import ua.spalah.bank.models.accounts.Account;
  */
 public interface AccountService {
     void deposit(Account account, double amount);
-    void withdraw(Account account, double amount);
-    void transfer(Account fromAccount, Account toAccount, double amount);
+    void withdraw(Account account, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException;
+    void transfer(Account fromAccount, Account toAccount, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException;
 }
