@@ -1,6 +1,8 @@
 package ua.spalah.bank.services.impl;
 
+import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
@@ -20,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
                 return client;
             }
         }
-        throw new ClientNotFoundException("Client with name " + name + " wasn't found");
+        throw new ClientNotFoundException(name);
     }
 
     @Override
@@ -29,23 +31,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client saveClient(Bank bank, Client client) {
-        bank.getClients().add(client);
+    public Client saveClient(Bank bank, Client client) throws ClientAlreadyExistsException {
+        if (!bank.getAllClients().contains(client)) {
+            bank.getAllClients().add(client);
+        } else {
+            throw new ClientAlreadyExistsException(client.getName());
+        }
         return client;
     }
 
     @Override
     public void deleteClient(Bank bank, Client client) throws ClientNotFoundException{
-        if (bank.getClients().contains(client)) {
-            bank.getClients().remove(client);
+        if (bank.getAllClients().contains(client)) {
+            bank.getAllClients().remove(client);
         }
         else {
-            throw new ClientNotFoundException("Client wasn't found.");
+            throw new ClientNotFoundException(client.getName());
         }
     }
 
     @Override
-    public void addAccount(Client client, Account account) {
+    public void addAccount(Client client, Account account) throws ClientNotHaveAccountException {
         client.getAccounts().add(account);
         if (client.getAccounts().size() == 1) {
             client.setActiveAccount(account);

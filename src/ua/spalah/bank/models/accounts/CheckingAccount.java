@@ -9,8 +9,8 @@ public class CheckingAccount extends SavingAccount {
 
     private double overdraft; //возможная задолженность.
 
-    public CheckingAccount(double balance, AccountType type, double overdraft) {
-        super(balance, type);
+    public CheckingAccount(double balance, double overdraft) {
+        super(balance, AccountType.CHECKING);
         if (overdraft < 0) {
             System.out.println("Overdraft < 0!");
         } else {
@@ -20,10 +20,15 @@ public class CheckingAccount extends SavingAccount {
 
     @Override
     public String toString() {
-        return "CheckingAccount <-> balance: " + getBalance()
-                + ", overdraft: " + overdraft;
+        return "CheckingAccount <-> balance: " + getBalance() + ", overdraft: " + overdraft;
     }
+
     public double getOverdraft() {
         return overdraft;
     }
+
+    public void setOverdraft(double overdraft) {
+        this.overdraft = overdraft;
+    }
+
 }

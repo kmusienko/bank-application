@@ -1,5 +1,6 @@
 package ua.spalah.bank.models;
 
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.type.Gender;
 
@@ -22,18 +23,11 @@ public class Client {
 
     }
 
-//    public void addAccount(Account account) {
-//        if (accounts.size() == 0) {
-//            activeAccount = account;
-//        }
-//        accounts.add(account);
-//    }
-
-    public void setActiveAccount(Account account) {
+    public void setActiveAccount(Account account) throws ClientNotHaveAccountException {
         if (accounts.contains(account)) {
             activeAccount = account;
         } else {
-            System.out.println("Account hasn't been created.");
+           throw new ClientNotHaveAccountException("Client " + getName() + " doesn't have an account " + account);
         }
     }
 
@@ -44,14 +38,6 @@ public class Client {
     public Gender getGender() {
         return gender;
     }
-
-//    public double getTotalBalance() {
-//        double totalBalance = 0;
-//        for (Account account : accounts) {
-//            totalBalance += account.getBalance();
-//        }
-//        return totalBalance;
-//    }
 
     @Override
     public String toString() {

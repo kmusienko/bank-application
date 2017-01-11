@@ -1,5 +1,8 @@
 package ua.spalah.bank;
 
+import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
+import ua.spalah.bank.exceptions.NotEnoughFundsException;
+import ua.spalah.bank.exceptions.OverdraftLimitExceededException;
 import ua.spalah.bank.models.accounts.*;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
@@ -20,12 +23,24 @@ public class Run {
         Client vasya = new Client("Vasya", Gender.FEMALE);
         Client vasya2 = new Client("Kostya", Gender.MALE);
         AccountServiceImpl accountService = new AccountServiceImpl();
-        Account savingAccount = new SavingAccount(100, AccountType.SAVING);
-
+        Account savingAccount = new SavingAccount(100);
+        try {
+            accountService.withdraw(savingAccount,50);
+        } catch (NotEnoughFundsException e) {
+            e.printStackTrace();
+        }
         ClientServiceImpl clientService = new ClientServiceImpl();
-        clientService.addAccount(kostya, savingAccount);
-        clientService.saveClient(bank, kostya);
-        clientService.saveClient(bank, vasya);
+
+        try {
+            clientService.addAccount(kostya, savingAccount);
+            clientService.saveClient(bank, kostya);
+            clientService.saveClient(bank, vasya);
+        } catch (Exception e) {
+            RuntimeException ex = new RuntimeException("Initialization error");
+            ex.initCause(e);
+            throw ex;
+        }
+
         BankReportServiceImpl bankReportService = new BankReportServiceImpl();
         System.out.println(bankReportService.getTotalAccountSum(bank));
 

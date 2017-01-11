@@ -8,11 +8,14 @@ import ua.spalah.bank.models.type.AccountType;
 public class SavingAccount implements Account {
 
     private double balance;
-    AccountType type;
-
-    public SavingAccount(double balance, AccountType type) {
+    private final AccountType accountType;
+    protected SavingAccount(double balance, AccountType accountType) {
         this.balance = balance;
-        this.type = type;
+        this.accountType = accountType;
+    }
+
+    public SavingAccount(double balance) {
+        this(balance, AccountType.SAVING);
     }
 
     @Override
@@ -22,7 +25,7 @@ public class SavingAccount implements Account {
 
     @Override
     public AccountType getType() {
-        return type;
+        return accountType;
     }
 
     @Override

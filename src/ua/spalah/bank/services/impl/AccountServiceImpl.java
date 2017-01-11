@@ -14,34 +14,28 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deposit(Account account, double amount) {
 
-        if (amount < 0) throw new IllegalArgumentException("Amount can't be negative.");
-            account.setBalance(account.getBalance() + amount);
+        if (amount <= 0) throw new IllegalArgumentException("Amount can't be negative.");
+        account.setBalance(account.getBalance() + amount);
     }
 
     @Override
-    public void withdraw(Account account, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException {
-        if (amount < 0) throw new IllegalArgumentException("Amount can't be negative.");
+    public void withdraw(Account account, double amount) throws NotEnoughFundsException {
+        if (amount <= 0) throw new IllegalArgumentException("Amount can't be negative.");
         AccountType accountType = account.getType();
         if (accountType == AccountType.SAVING) {
-            if (amount > account.getBalance()) {
-                throw new NotEnoughFundsException("You want too much money.");
-            }
-            else {
-                account.setBalance(account.getBalance() - amount);
-            }
-        }
-        else if (accountType == AccountType.CHECKING) {
+            if (amount > account.getBalance()) throw new NotEnoughFundsException(account.getBalance());
+            account.setBalance(account.getBalance() - amount);
+        } else if (accountType == AccountType.CHECKING) {
             double available = account.getBalance() + ((CheckingAccount) account).getOverdraft();
-            if (available < amount) {
-                throw new OverdraftLimitExceededException("Out of overdraft limit.");
-            } else {
-                account.setBalance(account.getBalance() - amount);
-            }
+            if (available < amount) throw new OverdraftLimitExceededException(available);
+            account.setBalance(account.getBalance() - amount);
+        } else {
+            throw new IllegalArgumentException("Unknown type");
         }
     }
 
     @Override
-    public void transfer(Account fromAccount, Account toAccount, double amount) throws NotEnoughFundsException, OverdraftLimitExceededException{
+    public void transfer(Account fromAccount, Account toAccount, double amount) throws NotEnoughFundsException {
         withdraw(fromAccount, amount);
         deposit(toAccount, amount);
     }
