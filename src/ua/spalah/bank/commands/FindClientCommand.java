@@ -31,6 +31,6 @@ public class FindClientCommand implements Command { // находит клиен
 
     @Override
     public String getCommandInfo() {
-        return "Find client";
+        return "Find a client";
     }
 }

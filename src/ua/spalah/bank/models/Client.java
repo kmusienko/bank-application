@@ -44,7 +44,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "\nClient{" +
                 "name=" + name +
                 ",\n gender=" + gender +
                 ",\n activeAccount=" + activeAccount +

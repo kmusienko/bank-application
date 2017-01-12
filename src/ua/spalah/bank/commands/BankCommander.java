@@ -6,8 +6,10 @@ import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.AccountService;
+import ua.spalah.bank.services.BankReportService;
 import ua.spalah.bank.services.ClientService;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
+import ua.spalah.bank.services.impl.BankReportServiceImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 import java.util.InputMismatchException;
@@ -35,6 +37,7 @@ public class BankCommander {
 
             ClientService clientService = new ClientServiceImpl();
             AccountService accountService = new AccountServiceImpl();
+            BankReportService bankReportService = new BankReportServiceImpl();
 
             Bank bank = new Bank();
 
@@ -73,7 +76,11 @@ public class BankCommander {
                     new GetAccountsCommand(clientService),
                     new DepositCommand(accountService),
                     new WithdrawCommand(accountService),
-                    new TransferCommand(clientService, accountService)
+                    new TransferCommand(clientService, accountService),
+                    new AddClientCommand(clientService),
+                    new RemoveClientCommand(clientService),
+                    new GetBankInfoCommand(bankReportService),
+                    new ExitCommand()
                     };
 
         } catch (Exception e) {
