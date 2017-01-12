@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * Created by Kostya on 12.01.2017.
  */
-public class FindClientCommand implements Command {
+public class FindClientCommand implements Command { // находит клиента по имени и делает его текущим клиентом
     private final ClientService clientService;
 
     public FindClientCommand(ClientService clientService) {
@@ -23,7 +23,7 @@ public class FindClientCommand implements Command {
 
         try {
             BankCommander.currentClient = clientService.findClientByName(BankCommander.currentBank, name);
-            System.out.println("Client " + BankCommander.currentClient.getName() + " successfully found");
+            System.out.println("Client " + BankCommander.currentClient.getName() + " successfully was found");
         } catch (ClientNotFoundException e) {
             System.out.println(e.getMessage());
         }

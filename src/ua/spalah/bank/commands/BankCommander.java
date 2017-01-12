@@ -68,7 +68,13 @@ public class BankCommander {
 
             currentBank = bank;
 
-            this.commands = new Command[]{new FindClientCommand(clientService)};
+            this.commands = new Command[]{
+                    new FindClientCommand(clientService),
+                    new GetAccountsCommand(clientService),
+                    new DepositCommand(accountService),
+                    new WithdrawCommand(accountService),
+                    new TransferCommand(clientService, accountService)
+                    };
 
         } catch (Exception e) {
 //            throw new RuntimeException("Initialization error", e);

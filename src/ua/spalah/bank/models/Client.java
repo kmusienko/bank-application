@@ -30,6 +30,9 @@ public class Client {
            throw new ClientNotHaveAccountException("Client " + getName() + " doesn't have an account " + account);
         }
     }
+    public Account getActiveAccount() {
+        return activeAccount;
+    }
 
     public String getName() {
         return name;
