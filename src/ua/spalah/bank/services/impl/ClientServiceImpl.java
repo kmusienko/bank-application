@@ -2,7 +2,6 @@ package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
@@ -51,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void addAccount(Client client, Account account) throws ClientNotHaveAccountException {
+    public void addAccount(Client client, Account account) {
         client.getAccounts().add(account);
         if (client.getAccounts().size() == 1) {
             client.setActiveAccount(account);
@@ -66,5 +65,14 @@ public class ClientServiceImpl implements ClientService {
             totalBalance += account.getBalance();
         }
         return totalBalance;
+    }
+
+    @Override
+    public void getAccountsInfo(Client client) {
+        List<Account> accounts = client.getAccounts();
+        for (int i=0;i<accounts.size();i++) {
+            String isActive = client.getActiveAccount() == accounts.get(i) ? ", *active account*" : "";
+            System.out.println("[" + (i+1) + "] " +accounts.get(i).toString() + isActive);
+        }
     }
 }

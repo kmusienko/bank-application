@@ -1,6 +1,5 @@
 package ua.spalah.bank.models;
 
-import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.type.Gender;
 
@@ -23,12 +22,8 @@ public class Client {
 
     }
 
-    public void setActiveAccount(Account account) throws ClientNotHaveAccountException {
-        if (accounts.contains(account)) {
-            activeAccount = account;
-        } else {
-           throw new ClientNotHaveAccountException("Client " + getName() + " doesn't have an account " + account);
-        }
+    public void setActiveAccount(Account account) {
+        activeAccount = account;
     }
     public Account getActiveAccount() {
         return activeAccount;

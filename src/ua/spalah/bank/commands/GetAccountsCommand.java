@@ -1,5 +1,6 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.services.ClientService;
 
 /**
@@ -14,10 +15,10 @@ public class GetAccountsCommand implements Command { // выводит спис�
 
     @Override
     public void execute() {
-        if (BankCommander.currentClient == null) { // может создать метод getCurrentClient()
-            System.out.println("You didn't choose a client!"); // и кинуть там исключение, а здесь его словить?
+        if (BankCommander.currentClient == null) {
+            System.out.println("You didn't choose a client!");
         } else {
-            System.out.println(BankCommander.currentClient);
+            clientService.getAccountsInfo(BankCommander.currentClient);
         }
     }
 

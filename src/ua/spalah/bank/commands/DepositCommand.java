@@ -18,8 +18,8 @@ public class DepositCommand implements Command { // кладет введенн�
 
     @Override
     public void execute() {
-        if (BankCommander.currentClient == null) { // может создать метод getCurrentClient()
-            System.out.println("You didn't choose a client!"); // и кинуть там исключение, а здесь его словить?
+        if (BankCommander.currentClient == null) {
+            System.out.println("You didn't choose a client!");
         } else {
             System.out.println("Please enter deposit amount: ");
             Scanner scanner = new Scanner(System.in);

@@ -17,16 +17,11 @@ public class GetBankInfoCommand implements Command {
 
     @Override
     public void execute() {
-        int numberOfClients = bankReportService.getNumberOfClients(BankCommander.currentBank);
-        int numberOfAccounts = bankReportService.getNumberOfAccounts(BankCommander.currentBank);
-        double totalAccountSum = bankReportService.getTotalAccountSum(BankCommander.currentBank);
-        double bankCreditSum = bankReportService.getBankCreditSum(BankCommander.currentBank);
-        List<Client> clientsSortedByName = bankReportService.getClientsSortedByName(BankCommander.currentBank);
-        System.out.println("Number of clients: " + numberOfClients + "\n" +
-                            "Number of accounts: " + numberOfAccounts + "\n" +
-                            "Total account sum: " + totalAccountSum + "\n" +
-                            "Bank credit sum: " + bankCreditSum + "\n" +
-                            "All clients sorted by name: \n" + clientsSortedByName);
+        System.out.println("Number of clients: " + bankReportService.getNumberOfClients(BankCommander.currentBank) + "\n" +
+                            "Number of accounts: " + bankReportService.getNumberOfAccounts(BankCommander.currentBank) + "\n" +
+                            "Total account sum: " + bankReportService.getTotalAccountSum(BankCommander.currentBank) + "\n" +
+                            "Bank credit sum: " + bankReportService.getBankCreditSum(BankCommander.currentBank) + "\n" +
+                            "All clients sorted by name: \n" + bankReportService.getClientsSortedByName(BankCommander.currentBank));
     }
 
     @Override
