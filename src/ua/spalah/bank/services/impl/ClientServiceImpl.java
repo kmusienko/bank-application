@@ -75,4 +75,9 @@ public class ClientServiceImpl implements ClientService {
             System.out.println("[" + (i+1) + "] " +accounts.get(i).toString() + isActive);
         }
     }
+
+    @Override
+    public void selectActiveAccount(Client client, Account account) {
+        client.setActiveAccount(account);
+    }
 }

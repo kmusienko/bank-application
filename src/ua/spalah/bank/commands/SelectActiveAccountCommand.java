@@ -30,7 +30,7 @@ public class SelectActiveAccountCommand implements Command{
                 if (BankCommander.currentClient.getActiveAccount() == accounts.get(k - 1)) {
                     System.out.println("This account is already active!");
                 } else {
-                    BankCommander.currentClient.setActiveAccount(accounts.get(k - 1));
+                    clientService.selectActiveAccount(BankCommander.currentClient, accounts.get(k - 1));
                     System.out.println("Operation successfully completed");
                 }
             } catch (IndexOutOfBoundsException e) {

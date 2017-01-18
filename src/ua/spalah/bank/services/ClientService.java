@@ -19,4 +19,5 @@ public interface ClientService {
     void addAccount(Client client, Account account);
     double getTotalBalance(Client client);
     void getAccountsInfo(Client client);
+    void selectActiveAccount(Client client, Account account);
 }
