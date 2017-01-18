@@ -1,8 +1,8 @@
 package ua.spalah.bank.services.impl;
 
-import ua.spalah.bank.Bank;
-import ua.spalah.bank.Client;
-import ua.spalah.bank.accounts.Account;
+import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.models.Client;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.BankReportService;
 
 import java.util.*;
@@ -29,7 +29,8 @@ public class BankReportServiceImpl implements BankReportService {
     public double getTotalAccountSum(Bank bank) {
         double totalAccountSum = 0;
         for (Client client : bank.getAllClients()) {
-            totalAccountSum += client.getTotalBalance();
+            ClientServiceImpl  clientService = new ClientServiceImpl();
+            totalAccountSum += clientService.getTotalBalance(client);
         }
         return totalAccountSum;
     }

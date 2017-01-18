@@ -1,9 +1,9 @@
-package ua.spalah.bank;
+package ua.spalah.bank.models;
 
-import ua.spalah.bank.accounts.Account;
+import ua.spalah.bank.models.accounts.Account;
+import ua.spalah.bank.models.type.Gender;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,19 +22,11 @@ public class Client {
 
     }
 
-    public void addAccount(Account account) {
-        if (accounts.size() == 0) {
-            activeAccount = account;
-        }
-        accounts.add(account);
-    }
-
     public void setActiveAccount(Account account) {
-        if (accounts.contains(account)) {
-            activeAccount = account;
-        } else {
-            System.out.println("Account hasn't been created.");
-        }
+        activeAccount = account;
+    }
+    public Account getActiveAccount() {
+        return activeAccount;
     }
 
     public String getName() {
@@ -45,17 +37,9 @@ public class Client {
         return gender;
     }
 
-    public double getTotalBalance() {
-        double totalBalance = 0;
-        for (Account account : accounts) {
-            totalBalance += account.getBalance();
-        }
-        return totalBalance;
-    }
-
     @Override
     public String toString() {
-        return "Client{" +
+        return "\nClient{" +
                 "name=" + name +
                 ",\n gender=" + gender +
                 ",\n activeAccount=" + activeAccount +

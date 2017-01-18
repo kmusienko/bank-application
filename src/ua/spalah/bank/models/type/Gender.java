@@ -1,4 +1,4 @@
-package ua.spalah.bank;
+package ua.spalah.bank.models.type;
 
 /**
  * Created by Kostya on 23.12.2016.
