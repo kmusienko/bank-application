@@ -36,12 +36,11 @@ public class SelectActiveAccountCommand implements Command{
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Out of available index!");
             }
-
         }
     }
 
     @Override
     public String getCommandInfo() {
-        return "Select active account";
+        return "Select an active account";
     }
 }
