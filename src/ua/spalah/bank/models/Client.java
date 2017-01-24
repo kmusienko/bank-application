@@ -15,11 +15,40 @@ public class Client {
     private Gender gender;
     private Account activeAccount;
     private ArrayList<Account> accounts = new ArrayList<>();
+    private String email;
+    private String tel;
+    private String city;
 
-    public Client(String name, Gender gender) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Client(String name, Gender gender, String email, String tel, String city) {
         this.name = name;
         this.gender = gender;
-
+        this.email = email;
+        this.tel = tel;
+        this.city = city;
     }
 
     public void setActiveAccount(Account account) {
@@ -44,6 +73,9 @@ public class Client {
                 ",\n gender=" + gender +
                 ",\n activeAccount=" + activeAccount +
                 ",\n accounts=" + accounts +
+                ",\n email = " + email +
+                ",\n tel = " + tel +
+                ",\n city = " + city +
                 '}';
     }
 
@@ -53,12 +85,13 @@ public class Client {
         if (otherObject == null) return false;
         if (getClass() != otherObject.getClass()) return false;
         Client other = (Client) otherObject;
-        return Objects.equals(name, other.name) && Objects.equals(gender, other.gender);
+        return Objects.equals(name, other.name) && Objects.equals(gender, other.gender)
+                && Objects.equals(email, other.email) && Objects.equals(tel, other.tel) && Objects.equals(city, other.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, gender);
+        return Objects.hash(name, gender, email, tel, city);
     }
 
     public List<Account> getAccounts() {

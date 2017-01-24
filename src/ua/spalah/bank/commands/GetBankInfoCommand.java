@@ -1,5 +1,6 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.services.BankReportService;
 
@@ -21,7 +22,8 @@ public class GetBankInfoCommand implements Command {
                             "Number of accounts: " + bankReportService.getNumberOfAccounts(BankCommander.currentBank) + "\n" +
                             "Total account sum: " + bankReportService.getTotalAccountSum(BankCommander.currentBank) + "\n" +
                             "Bank credit sum: " + bankReportService.getBankCreditSum(BankCommander.currentBank) + "\n" +
-                            "All clients sorted by name: \n" + bankReportService.getClientsSortedByName(BankCommander.currentBank));
+                            "All clients sorted by name: \n" + bankReportService.getClientsSortedByName(BankCommander.currentBank) + "\n" +
+                            "All clients sorted by city: \n" + bankReportService.getClientsByCity(BankCommander.currentBank));
     }
 
     @Override

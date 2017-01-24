@@ -18,31 +18,31 @@ import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 public class Run {
     public static void main(String[] args) {
-        Bank bank = new Bank();
-        Client kostya = new Client("Kostya", Gender.MALE);
-        Client vasya = new Client("Vasya", Gender.FEMALE);
-        Client vasya2 = new Client("Kostya", Gender.MALE);
-        AccountServiceImpl accountService = new AccountServiceImpl();
-        Account savingAccount = new SavingAccount(100);
-        try {
-            accountService.withdraw(savingAccount,50);
-        } catch (NotEnoughFundsException e) {
-            e.printStackTrace();
-        }
-        ClientServiceImpl clientService = new ClientServiceImpl();
+//        Bank bank = new Bank();
+//        Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
+//        Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Unknown");
+//        Client gera = new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Odessa");
+//        AccountServiceImpl accountService = new AccountServiceImpl();
+//        Account savingAccount = new SavingAccount(100);
+//        try {
+//            accountService.withdraw(savingAccount,50);
+//        } catch (NotEnoughFundsException e) {
+//            e.printStackTrace();
+//        }
+//        ClientServiceImpl clientService = new ClientServiceImpl();
+//
+//        try {
+//            clientService.addAccount(kostya, savingAccount);
+//            clientService.saveClient(bank, kostya);
+//            clientService.saveClient(bank, vasya);
+//        } catch (Exception e) {
+//            RuntimeException ex = new RuntimeException("Initialization error");
+//            ex.initCause(e);
+//            throw ex;
+//        }
 
-        try {
-            clientService.addAccount(kostya, savingAccount);
-            clientService.saveClient(bank, kostya);
-            clientService.saveClient(bank, vasya);
-        } catch (Exception e) {
-            RuntimeException ex = new RuntimeException("Initialization error");
-            ex.initCause(e);
-            throw ex;
-        }
-
-        BankReportServiceImpl bankReportService = new BankReportServiceImpl();
-        System.out.println(bankReportService.getTotalAccountSum(bank));
+//        BankReportServiceImpl bankReportService = new BankReportServiceImpl();
+//        System.out.println(bankReportService.getTotalAccountSum(bank));
 
 //        System.out.println("Clients, sorted by name:");
 //        System.out.println(new BankReportServiceImpl().getClientsSortedByName(bank));

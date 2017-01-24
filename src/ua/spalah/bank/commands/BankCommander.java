@@ -40,34 +40,27 @@ public class BankCommander {
             BankReportService bankReportService = new BankReportServiceImpl();
 
             Bank bank = new Bank();
+            Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
+            Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa");
+            Client gera = new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro");
 
-            Client dima = new Client("Dima", Gender.MALE);
-            Client misha = new Client("Misha", Gender.MALE);
-            Client masha = new Client("Masha", Gender.FEMALE);
-            Client kostya = new Client("Kostya", Gender.MALE);
+            CheckingAccount c1 = new CheckingAccount(1000, 800);
+            SavingAccount s1 = new SavingAccount(3000);
+            CheckingAccount c2 = new CheckingAccount(17000, 7000);
+            SavingAccount s2 = new SavingAccount(5000);
+            CheckingAccount c3 = new CheckingAccount(2000, 1000);
+            SavingAccount s3 = new SavingAccount(20000);
 
-            CheckingAccount dck = new CheckingAccount(1000, 800);
-            SavingAccount dsa = new SavingAccount(3000);
-            CheckingAccount mick = new CheckingAccount(17000, 7000);
-            SavingAccount misa = new SavingAccount(5000);
-            CheckingAccount mack = new CheckingAccount(4000, 5000);
-            SavingAccount masa = new SavingAccount(100000);
-            CheckingAccount kck = new CheckingAccount(2000, 1000);
-            SavingAccount ksa = new SavingAccount(20000);
-
-            clientService.saveClient(bank, dima);
-            clientService.saveClient(bank, misha);
-            clientService.saveClient(bank, masha);
             clientService.saveClient(bank, kostya);
+            clientService.saveClient(bank, misha);
+            clientService.saveClient(bank, gera);
 
-            clientService.addAccount(dima, dck);
-            clientService.addAccount(dima, dsa);
-            clientService.addAccount(misha, mick);
-            clientService.addAccount(misha, misa);
-            clientService.addAccount(masha, masa);
-            clientService.addAccount(masha, mack);
-            clientService.addAccount(kostya, ksa);
-            clientService.addAccount(kostya, kck);
+            clientService.addAccount(gera, c1);
+            clientService.addAccount(gera, s1);
+            clientService.addAccount(misha, c2);
+            clientService.addAccount(misha, s2);
+            clientService.addAccount(kostya, s3);
+            clientService.addAccount(kostya, c3);
 
             currentBank = bank;
 
