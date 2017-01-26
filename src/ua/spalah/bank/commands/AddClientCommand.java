@@ -37,20 +37,22 @@ public class AddClientCommand implements Command {
             else if (stringGender.equalsIgnoreCase("Female")) gender = Gender.FEMALE;
             else System.out.println("Incorrect gender!");
 
-            do {
-                System.out.println("Please, enter client's email: ");
+            System.out.println("Please, enter client's email: ");
+            email = scanner.nextLine();
+            while (!isValidEmail(email)) {
+                System.out.println("Incorrect email! Try again.");
+                System.out.println("Enter client's email: ");
                 email = scanner.nextLine();
-                if (!isValidEmail(email)) {
-                    System.out.println("Incorrect email! Try again.");
-                }
-            } while (!isValidEmail(email));
-            do {
-                System.out.println("Please, enter client's phone number:");
+            }
+
+            System.out.println("Please, enter client's phone number: ");
+            tel = scanner.nextLine();
+            while (!isValidTel(tel)) {
+                System.out.println("Incorrect number! Try again.");
+                System.out.println("Enter client's phone number: ");
                 tel = scanner.nextLine();
-                if (!isValidTel(tel)) {
-                    System.out.println("Incorrect number! Try again.");
-                }
-            } while (!isValidTel(tel));
+            }
+
             System.out.println("Please, enter client's city:");
             String city = scanner.nextLine();
             clientService.saveClient(BankCommander.currentBank, new Client(name, gender, email, tel, city));
