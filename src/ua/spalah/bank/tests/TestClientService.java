@@ -15,10 +15,12 @@ import ua.spalah.bank.services.impl.ClientServiceImpl;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Kostya on 26.01.2017.
  */
-public class TestClientService extends Assert{
+public class TestClientService {
     private Bank bank;
     private ClientService clientService;
 

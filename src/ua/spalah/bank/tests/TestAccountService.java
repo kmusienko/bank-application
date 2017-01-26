@@ -10,10 +10,12 @@ import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Kostya on 26.01.2017.
  */
-public class TestAccountService extends Assert{
+public class TestAccountService {
    private AccountService accountService;
    private Account saving;
    private Account checking;
