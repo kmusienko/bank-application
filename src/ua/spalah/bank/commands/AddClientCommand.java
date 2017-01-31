@@ -1,13 +1,11 @@
 package ua.spalah.bank.commands;
 
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
-import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.exceptions.NotEnoughFundsException;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.ClientService;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,47 +16,48 @@ import java.util.regex.Pattern;
 // добавляет нового клиента, получая полную информацию о нем у пользователя
 public class AddClientCommand implements Command {
     private final ClientService clientService;
-    public AddClientCommand(ClientService clientService) {
+    private final IO ioConsole;
+    public AddClientCommand(ClientService clientService, IO ioConsole) {
         this.clientService = clientService;
+        this.ioConsole = ioConsole;
     }
 
     @Override
     public void execute() {
-        System.out.println("Please enter client's name:");
-        Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        System.out.println("Please enter client's gender(Male/Female):");
-        String stringGender = scanner.nextLine();
+        ioConsole.write("Please enter client's name:");
+        String name = ioConsole.read();
+        ioConsole.write("Please enter client's gender(Male/Female):");
+        String stringGender = ioConsole.read();
         Gender gender = null;
         String email = "";
         String tel = "";
         try {
             if (stringGender.equalsIgnoreCase("Male")) gender = Gender.MALE;
             else if (stringGender.equalsIgnoreCase("Female")) gender = Gender.FEMALE;
-            else System.out.println("Incorrect gender!");
+            else ioConsole.write("Incorrect gender!");
 
-            System.out.println("Please, enter client's email: ");
-            email = scanner.nextLine();
+            ioConsole.write("Please, enter client's email: ");
+            email = ioConsole.read();
             while (!isValidEmail(email)) {
-                System.out.println("Incorrect email! Try again.");
-                System.out.println("Enter client's email: ");
-                email = scanner.nextLine();
+                ioConsole.write("Incorrect email! Try again.");
+                ioConsole.write("Enter client's email: ");
+                email = ioConsole.read();
             }
 
-            System.out.println("Please, enter client's phone number: ");
-            tel = scanner.nextLine();
+            ioConsole.write("Please, enter client's phone number: ");
+            tel = ioConsole.read();
             while (!isValidTel(tel)) {
-                System.out.println("Incorrect number! Try again.");
-                System.out.println("Enter client's phone number: ");
-                tel = scanner.nextLine();
+                ioConsole.write("Incorrect number! Try again.");
+                ioConsole.write("Enter client's phone number: ");
+                tel = ioConsole.read();
             }
 
-            System.out.println("Please, enter client's city:");
-            String city = scanner.nextLine();
+            ioConsole.write("Please, enter client's city:");
+            String city = ioConsole.read();
             clientService.saveClient(BankCommander.currentBank, new Client(name, gender, email, tel, city));
-            System.out.println("Client " + name + " successfully added");
+            ioConsole.write("Client " + name + " successfully added");
         } catch (ClientAlreadyExistsException e) {
-            System.out.println(e.getMessage());
+            ioConsole.write(e.getMessage());
         }
     }
 

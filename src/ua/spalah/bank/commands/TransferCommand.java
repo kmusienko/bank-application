@@ -2,6 +2,7 @@ package ua.spalah.bank.commands;
 
 import ua.spalah.bank.exceptions.ClientNotFoundException;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.ClientService;
@@ -16,29 +17,30 @@ import java.util.Scanner;
 public class TransferCommand implements Command {
     private final ClientService clientService;
     private final AccountService accountService;
-    public TransferCommand(ClientService clientService, AccountService accountService) {
+    private final IO ioConsole;
+    public TransferCommand(ClientService clientService, AccountService accountService, IO ioConsole) {
         this.clientService = clientService;
         this.accountService = accountService;
+        this.ioConsole = ioConsole;
     }
 
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) { // может создать метод getCurrentClient()
-            System.out.println("You didn't choose a client!"); // и кинуть там исключение, а здесь его словить?
+            ioConsole.write("You didn't choose a client!"); // и кинуть там исключение, а здесь его словить?
         } else {
-            System.out.println("Enter client's name who will receive money:");
-            Scanner scanner = new Scanner(System.in);
-            String name = scanner.nextLine();
+            ioConsole.write("Enter client's name who will receive money:");
+            String name = ioConsole.read();
             try {
                 Client receiver = clientService.findClientByName(BankCommander.currentBank, name);
-                System.out.println("Please enter amount: ");
-                double amount = scanner.nextDouble();
+                ioConsole.write("Please enter amount: ");
+                double amount = Double.parseDouble(ioConsole.read());
                 accountService.transfer(BankCommander.currentClient.getActiveAccount(), receiver.getActiveAccount(), amount);
-                System.out.println("Operation successfully completed");
+                ioConsole.write("Operation successfully completed");
             } catch (InputMismatchException e) {
-                System.out.println("This is not a number!");
+                ioConsole.write("This is not a number!");
             } catch (NotEnoughFundsException | ClientNotFoundException e) {
-                System.out.println(e.getMessage());
+                ioConsole.write(e.getMessage());
             }
         }
     }

@@ -1,11 +1,12 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.ioCommander.ConsoleIO;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
-import ua.spalah.bank.models.type.AccountType;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.BankReportService;
@@ -44,6 +45,7 @@ public class BankCommander {
             ClientService clientService = new ClientServiceImpl();
             AccountService accountService = new AccountServiceImpl();
             BankReportService bankReportService = new BankReportServiceImpl();
+            IO ioConsole = new ConsoleIO();
 
             Bank bank = new Bank();
 //            Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
@@ -110,16 +112,16 @@ public class BankCommander {
             currentBank = bank;
 
             this.commands = new Command[]{
-                    new FindClientCommand(clientService),
-                    new GetAccountsCommand(clientService),
-                    new SelectActiveAccountCommand(clientService),
-                    new DepositCommand(accountService),
-                    new WithdrawCommand(accountService),
-                    new TransferCommand(clientService, accountService),
-                    new AddClientCommand(clientService),
-                    new AddAccountCommand(clientService),
-                    new RemoveClientCommand(clientService),
-                    new GetBankInfoCommand(bankReportService),
+                    new FindClientCommand(clientService, ioConsole),
+                    new GetAccountsCommand(clientService, ioConsole),
+                    new SelectActiveAccountCommand(clientService, ioConsole),
+                    new DepositCommand(accountService, ioConsole),
+                    new WithdrawCommand(accountService, ioConsole),
+                    new TransferCommand(clientService, accountService, ioConsole),
+                    new AddClientCommand(clientService, ioConsole),
+                    new AddAccountCommand(clientService, ioConsole),
+                    new RemoveClientCommand(clientService, ioConsole),
+                    new GetBankInfoCommand(bankReportService, ioConsole),
                     new ExitCommand()
                     };
 

@@ -1,6 +1,6 @@
 package ua.spalah.bank.commands;
 
-import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.services.ClientService;
 
 /**
@@ -8,15 +8,17 @@ import ua.spalah.bank.services.ClientService;
  */
 public class GetAccountsCommand implements Command { // выводит список счетов текущего клиента помечая активный счет
     private final ClientService clientService;
+    private final IO ioConsole;
 
-    public GetAccountsCommand(ClientService clientService) {
+    public GetAccountsCommand(ClientService clientService, IO ioConsole) {
         this.clientService = clientService;
+        this.ioConsole = ioConsole;
     }
 
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) {
-            System.out.println("You didn't choose a client!");
+            ioConsole.write("You didn't choose a client!");
         } else {
             clientService.getAccountsInfo(BankCommander.currentClient);
         }

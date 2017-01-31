@@ -1,9 +1,9 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
-import ua.spalah.bank.models.type.AccountType;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.Scanner;
@@ -15,22 +15,23 @@ import java.util.Scanner;
 // делаем этот активным, если уже есть, то прелагаем сделать его активным опционально)
 public class AddAccountCommand implements Command {
     private final ClientService clientService;
+    private final IO ioConsole;
 
-    public AddAccountCommand(ClientService clientService) {
+    public AddAccountCommand(ClientService clientService, IO ioConsole) {
         this.clientService = clientService;
+        this.ioConsole = ioConsole;
     }
 
 
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) {
-            System.out.println("You didn't choose a client!");
+            ioConsole.write("You didn't choose a client!");
         } else {
-            System.out.println("What type of account you want to create? 1 - Saving, 2 - Checking");
-            Scanner scanner = new Scanner(System.in);
-            int intType = scanner.nextInt();
-            System.out.println("Please enter the balance: ");
-            double balance = scanner.nextDouble();
+            ioConsole.write("What type of account you want to create? 1 - Saving, 2 - Checking");
+            int intType = Integer.parseInt(ioConsole.read());
+            ioConsole.write("Please enter the balance: ");
+            double balance = Double.parseDouble(ioConsole.read());
             Account account = null;
             boolean isCorrectType = false;
             switch (intType) {
@@ -40,24 +41,24 @@ public class AddAccountCommand implements Command {
                     break;
                 case 2:
                     isCorrectType = true;
-                    System.out.println("Please enter the overdraft:");
-                    double overdraft = scanner.nextDouble();
+                    ioConsole.write("Please enter the overdraft:");
+                    double overdraft = Double.parseDouble(ioConsole.read());
                     account = new CheckingAccount(balance, overdraft);
                     break;
                 default:
-                    System.out.println("Unknown type.");
+                    ioConsole.write("Unknown type.");
             }
             if (isCorrectType) {
                 clientService.addAccount(BankCommander.currentClient, account);
                 if (BankCommander.currentClient.getAccounts().size() == 1) {
                     BankCommander.currentClient.setActiveAccount(account);
                 } else {
-                    System.out.println("Do you want to make this account active? (y/n)");
-                    if (scanner.next().charAt(0) == 'y') {
+                    ioConsole.write("Do you want to make this account active? (y/n)");
+                    if (ioConsole.read().charAt(0) == 'y') {
                         BankCommander.currentClient.setActiveAccount(account);
                     }
                 }
-                System.out.println("Operation successfully completed");
+                ioConsole.write("Operation successfully completed");
             }
         }
     }

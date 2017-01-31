@@ -1,8 +1,7 @@
 package ua.spalah.bank.commands;
 
-import ua.spalah.bank.models.Client;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.services.AccountService;
-import ua.spalah.bank.services.ClientService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,23 +11,25 @@ import java.util.Scanner;
  */
 public class DepositCommand implements Command { // кладет введенную пользователем сумму денег на активный счет текущего клиента
     private final AccountService accountService;
-    public DepositCommand(AccountService accountService) {
+    private final IO ioConsole;
+
+    public DepositCommand(AccountService accountService, IO ioConsole) {
         this.accountService = accountService;
+        this.ioConsole = ioConsole;
     }
 
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) {
-            System.out.println("You didn't choose a client!");
+            ioConsole.write("You didn't choose a client!");
         } else {
-            System.out.println("Please enter deposit amount: ");
-            Scanner scanner = new Scanner(System.in);
+            ioConsole.write("Please enter deposit amount: ");
             try {
-                double amount = scanner.nextDouble();
+                double amount = Double.parseDouble(ioConsole.read());
                 accountService.deposit(BankCommander.currentClient.getActiveAccount(), amount);
-                System.out.println("Operation successfully completed");
+                ioConsole.write("Operation successfully completed");
             } catch (InputMismatchException e) {
-                System.out.println("This is not a number!");
+                ioConsole.write("This is not a number!");
             }
         }
     }
