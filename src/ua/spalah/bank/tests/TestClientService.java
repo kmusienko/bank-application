@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by Kostya on 26.01.2017.
@@ -44,10 +45,6 @@ public class TestClientService {
 //        bank.getAllClients().get("Gera").getAccounts().add(c3);
 //        bank.getAllClients().get("Gera").getAccounts().add(s3);
     }
-    @After
-    public void clear() {
-        bank.getAllClients().clear();
-    }
 
     @Test
     public void testFindClientByName() throws ClientNotFoundException {
@@ -67,15 +64,11 @@ public class TestClientService {
         assertEquals(clients, clientService.findAllClients(bank));
     }
     @Test
-    public void testSaveClient() throws ClientAlreadyExistsException {
-        Bank testBank = new Bank();
-        testBank.getAllClients().put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
-        testBank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
-        testBank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
+    public void testSaveClient() throws Exception {
         Client testClient = new Client("TestClient", Gender.MALE, "tests@gmail.com", "+380968965212", "TestCity");
-        testBank.getAllClients().put("TestClient", testClient);
         clientService.saveClient(bank, testClient);
-        assertEquals(testBank.getAllClients(), bank.getAllClients());
+        Client foundClient = clientService.findClientByName(bank,"TestClient");
+        assertEquals(testClient, foundClient);
     }
     @Test (expected = ClientAlreadyExistsException.class)
     public void testSaveClientAlreadyExists() throws ClientAlreadyExistsException {
@@ -83,13 +76,9 @@ public class TestClientService {
     }
     @Test
     public void testDeleteClient() throws ClientNotFoundException {
-        Bank testBank = new Bank();
-        testBank.getAllClients().put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
-        testBank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
-        testBank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
-        testBank.getAllClients().remove("Gera");
-        clientService.deleteClient(bank, new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
-        assertEquals(testBank.getAllClients(), bank.getAllClients());
+        Client misha = clientService.findClientByName(bank, "Misha");
+        clientService.deleteClient(bank, misha);
+        assertFalse(bank.getAllClients().containsValue(misha));
     }
     @Test (expected = ClientNotFoundException.class)
     public void testDeleteClientNotFound() throws ClientNotFoundException {
