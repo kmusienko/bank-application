@@ -7,13 +7,14 @@ import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kostya on 05.01.2017.
  */
 public interface ClientService {
     Client findClientByName(Bank bank, String name) throws ClientNotFoundException;
-    List<Client> findAllClients(Bank bank);
+    Map<String, Client> findAllClients(Bank bank);
     Client saveClient(Bank bank, Client client) throws ClientAlreadyExistsException;;
     void deleteClient(Bank bank, Client client) throws ClientNotFoundException;
     void addAccount(Client client, Account account);

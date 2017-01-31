@@ -7,9 +7,10 @@ import java.util.*;
  */
 public class Bank {
 
-    private List<Client> clients = new ArrayList<>();
+    //private List<Client> clients = new ArrayList<>();
+    private Map<String, Client> clients = new HashMap<>();
 
-    public List<Client> getAllClients() {
+    public Map<String, Client> getAllClients() {
         return clients;
     }
 
