@@ -79,18 +79,18 @@ public class BankCommander {
             for (String clientString : clientLines) {
                 String[] clientTokens = clientString.split("::");
                 String name = clientTokens[0];
-                Gender gender;
-                switch (clientTokens[1]) {
-                    case "MALE": gender = Gender.MALE; break;
-                    case "FEMALE" : gender = Gender.FEMALE; break;
-                    default: throw new IllegalArgumentException("Initialization error");
-                }
+                Gender gender = Gender.valueOf(clientTokens[1]);
+//                switch (clientTokens[1]) {
+//                    case "MALE": gender = Gender.MALE; break;
+//                    case "FEMALE" : gender = Gender.FEMALE; break;
+//                    default: throw new IllegalArgumentException("Initialization error");
+//                }
                 String email = clientTokens[2];
                 String telephone = clientTokens[3];
                 String city = clientTokens[4];
                 clientService.saveClient(bank, new Client(name, gender, email, telephone, city));
             }
-
+            // можно переделать чуть проще:
             List<String> accountsLines = Files.readAllLines(pathAccounts);
             for (String accountString : accountsLines) {
                 String[] accountTokens = accountString.split("::");

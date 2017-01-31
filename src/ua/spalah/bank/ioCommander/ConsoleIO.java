@@ -6,10 +6,10 @@ import java.util.Scanner;
  * Created by Kostya on 31.01.2017.
  */
 public class ConsoleIO implements IO {
+    private Scanner scanner = new Scanner(System.in);
 
     @Override
     public String read() {
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
