@@ -1,7 +1,10 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.ioCommander.ConsoleIO;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
@@ -12,7 +15,11 @@ import ua.spalah.bank.services.impl.AccountServiceImpl;
 import ua.spalah.bank.services.impl.BankReportServiceImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -38,43 +45,83 @@ public class BankCommander {
             ClientService clientService = new ClientServiceImpl();
             AccountService accountService = new AccountServiceImpl();
             BankReportService bankReportService = new BankReportServiceImpl();
+            IO ioConsole = new ConsoleIO();
 
             Bank bank = new Bank();
-            Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
-            Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa");
-            Client gera = new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro");
+//            Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
+//            Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa");
+//            Client gera = new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro");
+//
+//            CheckingAccount c1 = new CheckingAccount(1000, 800);
+//            SavingAccount s1 = new SavingAccount(3000);
+//            CheckingAccount c2 = new CheckingAccount(17000, 7000);
+//            SavingAccount s2 = new SavingAccount(5000);
+//            CheckingAccount c3 = new CheckingAccount(2000, 1000);
+//            SavingAccount s3 = new SavingAccount(20000);
+//
+//            clientService.saveClient(bank, kostya);
+//            clientService.saveClient(bank, misha);
+//            clientService.saveClient(bank, gera);
+//
+//            clientService.addAccount(gera, c1);
+//            clientService.addAccount(gera, s1);
+//            clientService.addAccount(misha, c2);
+//            clientService.addAccount(misha, s2);
+//            clientService.addAccount(kostya, s3);
+//            clientService.addAccount(kostya, c3);
 
-            CheckingAccount c1 = new CheckingAccount(1000, 800);
-            SavingAccount s1 = new SavingAccount(3000);
-            CheckingAccount c2 = new CheckingAccount(17000, 7000);
-            SavingAccount s2 = new SavingAccount(5000);
-            CheckingAccount c3 = new CheckingAccount(2000, 1000);
-            SavingAccount s3 = new SavingAccount(20000);
+            /* Инициализация данных из файлов */
+            String pathRoot = System.getProperty("user.dir");
+            Path pathAccounts = Paths.get(pathRoot, "src", "resources", "accounts.txt");
+            Path pathClients = Paths.get(pathRoot, "src", "resources", "clients.txt");
 
-            clientService.saveClient(bank, kostya);
-            clientService.saveClient(bank, misha);
-            clientService.saveClient(bank, gera);
-
-            clientService.addAccount(gera, c1);
-            clientService.addAccount(gera, s1);
-            clientService.addAccount(misha, c2);
-            clientService.addAccount(misha, s2);
-            clientService.addAccount(kostya, s3);
-            clientService.addAccount(kostya, c3);
+            List<String> clientLines = Files.readAllLines(pathClients);
+            for (String clientString : clientLines) {
+                String[] clientTokens = clientString.split("::");
+                String name = clientTokens[0];
+                Gender gender = Gender.valueOf(clientTokens[1]);
+//                switch (clientTokens[1]) {
+//                    case "MALE": gender = Gender.MALE; break;
+//                    case "FEMALE" : gender = Gender.FEMALE; break;
+//                    default: throw new IllegalArgumentException("Initialization error");
+//                }
+                String email = clientTokens[2];
+                String telephone = clientTokens[3];
+                String city = clientTokens[4];
+                clientService.saveClient(bank, new Client(name, gender, email, telephone, city));
+            }
+            // можно переделать чуть проще:
+            List<String> accountsLines = Files.readAllLines(pathAccounts);
+            for (String accountString : accountsLines) {
+                String[] accountTokens = accountString.split("::");
+                Client client = clientService.findClientByName(bank, accountTokens[0]);
+                Account account = null;
+                double balance = Double.parseDouble(accountTokens[2]);
+                double overdraft = 0;
+                if (accountTokens.length == 4) {
+                    overdraft = Double.parseDouble(accountTokens[3]);
+                }
+                switch (accountTokens[1]) {
+                    case "SAVING" : account = new SavingAccount(balance); break;
+                    case "CHECKING" : account = new CheckingAccount(balance, overdraft); break;
+                    default: throw new IllegalArgumentException("Initialization error");
+                }
+                clientService.addAccount(client, account);
+            }
 
             currentBank = bank;
 
             this.commands = new Command[]{
-                    new FindClientCommand(clientService),
-                    new GetAccountsCommand(clientService),
-                    new SelectActiveAccountCommand(clientService),
-                    new DepositCommand(accountService),
-                    new WithdrawCommand(accountService),
-                    new TransferCommand(clientService, accountService),
-                    new AddClientCommand(clientService),
-                    new AddAccountCommand(clientService),
-                    new RemoveClientCommand(clientService),
-                    new GetBankInfoCommand(bankReportService),
+                    new FindClientCommand(clientService, ioConsole),
+                    new GetAccountsCommand(clientService, ioConsole),
+                    new SelectActiveAccountCommand(clientService, ioConsole),
+                    new DepositCommand(accountService, ioConsole),
+                    new WithdrawCommand(accountService, ioConsole),
+                    new TransferCommand(clientService, accountService, ioConsole),
+                    new AddClientCommand(clientService, ioConsole),
+                    new AddAccountCommand(clientService, ioConsole),
+                    new RemoveClientCommand(clientService, ioConsole),
+                    new GetBankInfoCommand(bankReportService, ioConsole),
                     new ExitCommand()
                     };
 

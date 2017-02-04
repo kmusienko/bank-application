@@ -1,0 +1,3 @@
+Kostya::MALE::pro@gmail.com::+380636908681::Dnipro
+Misha::MALE::mixa@ukr.net::+380674567890::Odessa
+Lena::FEMALE::lenahello@gmail.com::+380964561234::Dnipro

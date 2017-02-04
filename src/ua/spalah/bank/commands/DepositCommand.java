@@ -1,8 +1,8 @@
 package ua.spalah.bank.commands;
 
-import ua.spalah.bank.models.Client;
+import ua.spalah.bank.ioCommander.AbstractCommand;
+import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.services.AccountService;
-import ua.spalah.bank.services.ClientService;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,25 +10,26 @@ import java.util.Scanner;
 /**
  * Created by Kostya on 12.01.2017.
  */
-public class DepositCommand implements Command { // кладет введенную пользователем сумму денег на активный счет текущего клиента
+public class DepositCommand extends AbstractCommand implements Command { // кладет введенную пользователем сумму денег на активный счет текущего клиента
     private final AccountService accountService;
-    public DepositCommand(AccountService accountService) {
+
+    public DepositCommand(AccountService accountService, IO io) {
+        super(io);
         this.accountService = accountService;
     }
 
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) {
-            System.out.println("You didn't choose a client!");
+            write("You didn't choose a client!");
         } else {
-            System.out.println("Please enter deposit amount: ");
-            Scanner scanner = new Scanner(System.in);
+            write("Please enter deposit amount: ");
             try {
-                double amount = scanner.nextDouble();
+                double amount = Double.parseDouble(read());
                 accountService.deposit(BankCommander.currentClient.getActiveAccount(), amount);
-                System.out.println("Operation successfully completed");
+                write("Operation successfully completed");
             } catch (InputMismatchException e) {
-                System.out.println("This is not a number!");
+                write("This is not a number!");
             }
         }
     }

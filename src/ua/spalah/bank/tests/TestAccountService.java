@@ -1,6 +1,5 @@
 package ua.spalah.bank.tests;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
