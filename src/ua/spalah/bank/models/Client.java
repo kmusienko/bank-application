@@ -11,6 +11,7 @@ import java.util.Objects;
  * Created by Kostya on 23.12.2016.
  */
 public class Client {
+    private int id;
     private String name;
     private Gender gender;
     private Account activeAccount;
@@ -18,6 +19,13 @@ public class Client {
     private String email;
     private String tel;
     private String city;
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -44,6 +52,14 @@ public class Client {
     }
 
     public Client(String name, Gender gender, String email, String tel, String city) {
+        this.name = name;
+        this.gender = gender;
+        this.email = email;
+        this.tel = tel;
+        this.city = city;
+    }
+    public Client(int id, String name, Gender gender, String email, String tel, String city) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.email = email;

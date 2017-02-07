@@ -1,4 +1,4 @@
-package ua.spalah.bank.tests;
+package ua.spalah.bank.services;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -72,8 +72,8 @@ public class BankCommander {
 
             /* Инициализация данных из файлов */
             String pathRoot = System.getProperty("user.dir");
-            Path pathAccounts = Paths.get(pathRoot, "src", "resources", "accounts.txt");
-            Path pathClients = Paths.get(pathRoot, "src", "resources", "clients.txt");
+            Path pathAccounts = Paths.get(pathRoot, "resources", "accounts.txt");
+            Path pathClients = Paths.get(pathRoot, "resources", "clients.txt");
 
             List<String> clientLines = Files.readAllLines(pathClients);
             for (String clientString : clientLines) {
