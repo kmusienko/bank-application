@@ -16,7 +16,15 @@ public class CheckingAccount extends SavingAccount {
         } else {
             this.overdraft = overdraft;
         }
+    }public CheckingAccount(int id, double balance, double overdraft) {
+        super(balance, AccountType.CHECKING);
+        if (overdraft < 0) {
+            System.out.println("Overdraft < 0!");
+        } else {
+            this.overdraft = overdraft;
+        }
     }
+
 
     @Override
     public String toString() {

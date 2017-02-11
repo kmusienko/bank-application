@@ -7,6 +7,7 @@ import ua.spalah.bank.models.type.AccountType;
  */
 public class SavingAccount implements Account {
 
+    private long id;
     private double balance;
     private final AccountType accountType;
     protected SavingAccount(double balance, AccountType accountType) {
@@ -36,5 +37,14 @@ public class SavingAccount implements Account {
     @Override
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

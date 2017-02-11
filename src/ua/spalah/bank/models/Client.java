@@ -20,6 +20,22 @@ public class Client {
     private String tel;
     private String city;
 
+    public Client(String name, Gender gender, String email, String tel, String city) {
+        this.name = name;
+        this.gender = gender;
+        this.email = email;
+        this.tel = tel;
+        this.city = city;
+    }
+    public Client(int id, String name, Gender gender, String email, String tel, String city) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.email = email;
+        this.tel = tel;
+        this.city = city;
+    }
+
     public int getId() {
         return id;
     }
@@ -51,21 +67,7 @@ public class Client {
         this.city = city;
     }
 
-    public Client(String name, Gender gender, String email, String tel, String city) {
-        this.name = name;
-        this.gender = gender;
-        this.email = email;
-        this.tel = tel;
-        this.city = city;
-    }
-    public Client(int id, String name, Gender gender, String email, String tel, String city) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.email = email;
-        this.tel = tel;
-        this.city = city;
-    }
+
 
     public void setActiveAccount(Account account) {
         activeAccount = account;

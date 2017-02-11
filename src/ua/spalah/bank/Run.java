@@ -18,6 +18,8 @@ import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 public class Run {
     public static void main(String[] args) {
+        char ch = '\uface';
+        System.out.println(ch);
 //        Bank bank = new Bank();
 //        Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
 //        Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Unknown");

@@ -1,5 +1,6 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.TestSqlJdbc;
 import ua.spalah.bank.ioCommander.ConsoleIO;
 import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Bank;
@@ -108,8 +109,13 @@ public class BankCommander {
                 }
                 clientService.addAccount(client, account);
             }
+            /**/
 
             currentBank = bank;
+//            List<Client> clients = new TestSqlJdbc().read();
+//            for (Client client : clients) {
+//                clientService.saveClient(currentBank, client);
+//            }
 
             this.commands = new Command[]{
                     new FindClientCommand(clientService, ioConsole),
