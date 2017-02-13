@@ -7,7 +7,10 @@ import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.services.AccountService;
+import ua.spalah.bank.services.impl.AccountDaoImpl;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
+
+import java.sql.Connection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +24,7 @@ public class TestAccountService {
 
     @Before
     public void init() {
-        accountService = new AccountServiceImpl();
+        accountService = new AccountServiceImpl(new AccountDaoImpl());
         saving = new SavingAccount(500);
         checking = new CheckingAccount(500, 200);
     }

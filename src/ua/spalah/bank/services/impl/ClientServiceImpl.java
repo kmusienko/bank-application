@@ -5,6 +5,8 @@ import ua.spalah.bank.exceptions.ClientNotFoundException;
 import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
+import ua.spalah.bank.services.AccountDao;
+import ua.spalah.bank.services.ClientDao;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;
@@ -15,46 +17,66 @@ import java.util.Map;
  */
 public class ClientServiceImpl implements ClientService {
 
-    @Override
-    public Client findClientByName(Bank bank, String name) throws ClientNotFoundException {
-        Client client = bank.getAllClients().get(name);
-        if (client == null) {
-            throw new ClientNotFoundException(name);
-        } else {
-            return client;
-        }
+    private ClientDao clientDao;
+    private AccountDao accountDao;
+
+    public ClientServiceImpl(ClientDao clientDao, AccountDao accountDao) {
+        this.clientDao = clientDao;
+        this.accountDao = accountDao;
     }
 
     @Override
-    public Map<String, Client> findAllClients(Bank bank) {
-        return bank.getAllClients();
+    public Client findClientByName(String name) throws ClientNotFoundException {
+//        Client client = bank.getAllClients().get(name);
+//        if (client == null) {
+//            throw new ClientNotFoundException(name);
+//        } else {
+//            return client;
+//        }
+        return clientDao.findByName(name);
     }
 
     @Override
-    public Client saveClient(Bank bank, Client client) throws ClientAlreadyExistsException {
-        if (!bank.getAllClients().containsKey(client.getName())) {
-            bank.getAllClients().put(client.getName(), client);
-        } else {
-            throw new ClientAlreadyExistsException(client.getName());
-        }
-        return client;
+    public List<Client> findAllClients() {
+        return clientDao.findAll();
     }
 
     @Override
-    public void deleteClient(Bank bank, Client client) throws ClientNotFoundException {
-        if (bank.getAllClients().containsKey(client.getName())) {
-            bank.getAllClients().remove(client.getName());
-        } else {
-            throw new ClientNotFoundException(client.getName());
+    public Client saveClient(Client client) throws ClientAlreadyExistsException {
+//        if (!bank.getAllClients().containsKey(client.getName())) {
+//            bank.getAllClients().put(client.getName(), client);
+//        } else {
+//            throw new ClientAlreadyExistsException(client.getName());
+//        }
+
+        return clientDao.saveOrUpdate(client);
+    }
+
+    @Override
+    public void deleteClient(Client client) throws ClientNotFoundException {
+//        if (bank.getAllClients().containsKey(client.getName())) {
+//            bank.getAllClients().remove(client.getName());
+//        } else {
+//            throw new ClientNotFoundException(client.getName());
+//        }
+
+//        client.setActiveAccount(null);
+//        clientDao.update(client);
+        List<Account> accounts = accountDao.findByClientId(client.getId());
+        for (Account account : accounts) {
+            accountDao.delete(account.getId());
         }
+        clientDao.delete(client.getId());
     }
 
     @Override
     public void addAccount(Client client, Account account) {
         client.getAccounts().add(account);
-        if (client.getAccounts().size() == 1) {
-            client.setActiveAccount(account);
-        }
+//        if (client.getAccounts().size() == 1) {
+//            client.setActiveAccount(account);
+//        }
+
+        accountDao.save(client.getId(), account);
 
     }
 
@@ -69,15 +91,18 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void getAccountsInfo(Client client) {
-        List<Account> accounts = client.getAccounts();
+     //   List<Account> accounts = client.getAccounts();
+        List<Account> accounts = accountDao.findByClientId(client.getId());
         for (int i = 0; i < accounts.size(); i++) {
-            String isActive = client.getActiveAccount() == accounts.get(i) ? ", *active account*" : "";
+            String isActive = client.getActiveAccount().getId() == accounts.get(i).getId() ? ", *active account*" : "";
             System.out.println("[" + (i + 1) + "] " + accounts.get(i).toString() + isActive);
         }
+
     }
 
     @Override
     public void selectActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
+        clientDao.update(client);
     }
 }

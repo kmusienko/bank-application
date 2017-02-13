@@ -7,6 +7,8 @@ import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.ClientService;
+import ua.spalah.bank.services.impl.AccountDaoImpl;
+import ua.spalah.bank.services.impl.ClientDaoImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 import java.sql.*;
@@ -40,7 +42,7 @@ public class TestSqlJdbc {
 
     public List<Client> read() {
         List<Client> clients = new ArrayList<>();
-        ClientService clientService = new ClientServiceImpl();
+        ClientService clientService = new ClientServiceImpl(new ClientDaoImpl(), new AccountDaoImpl());
         openConnection();
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM CLIENTS");
@@ -56,8 +58,8 @@ public class TestSqlJdbc {
                     if (resAccounts.getInt("client_id") == client.getId()) {
                         Account account = null;
                         switch (resAccounts.getString(3)) {
-                            case "saving" : account = new SavingAccount(resAccounts.getInt(1)); break;
-                            case "checking" : account = new CheckingAccount(resAccounts.getInt(1), resAccounts.getInt(2)); break;
+                            case "saving" : account = new SavingAccount(resAccounts.getLong("ID"),resAccounts.getInt(1)); break;
+                            case "checking" : account = new CheckingAccount(resAccounts.getLong("id"),resAccounts.getInt(1), resAccounts.getInt(2)); break;
                         }
                         clientService.addAccount(client, account);
                     }

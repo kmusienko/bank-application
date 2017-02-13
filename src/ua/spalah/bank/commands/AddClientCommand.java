@@ -54,7 +54,7 @@ public class AddClientCommand extends AbstractCommand implements Command {
 
             write("Please, enter client's city:");
             String city = read();
-            clientService.saveClient(BankCommander.currentBank, new Client(name, gender, email, tel, city));
+            clientService.saveClient(new Client(name, gender, email, tel, city));
             write("Client " + name + " successfully added");
         } catch (ClientAlreadyExistsException e) {
             write(e.getMessage());

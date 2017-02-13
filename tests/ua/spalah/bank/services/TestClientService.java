@@ -10,6 +10,8 @@ import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.ClientService;
+import ua.spalah.bank.services.impl.AccountDaoImpl;
+import ua.spalah.bank.services.impl.ClientDaoImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 import java.util.HashMap;
@@ -28,7 +30,7 @@ public class TestClientService {
     @Before
     public void init() {
         bank = new Bank();
-        clientService = new ClientServiceImpl();
+        clientService = new ClientServiceImpl(new ClientDaoImpl(), new AccountDaoImpl());
         bank.getAllClients().put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
         bank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
         bank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
@@ -49,11 +51,11 @@ public class TestClientService {
     @Test
     public void testFindClientByName() throws ClientNotFoundException {
         Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
-        assertEquals(kostya, clientService.findClientByName(bank, "Kostya"));
+        assertEquals(kostya, clientService.findClientByName("Kostya"));
     }
     @Test (expected = ClientNotFoundException.class)
     public void testFindClientByNameNotFound() throws ClientNotFoundException {
-        clientService.findClientByName(bank, "Tina");
+        clientService.findClientByName("Tina");
     }
     @Test
     public void testFindAllClients() {
@@ -61,28 +63,28 @@ public class TestClientService {
         clients.put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
         clients.put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
         clients.put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
-        assertEquals(clients, clientService.findAllClients(bank));
+        assertEquals(clients, clientService.findAllClients());
     }
     @Test
     public void testSaveClient() throws Exception {
         Client testClient = new Client("TestClient", Gender.MALE, "tests@gmail.com", "+380968965212", "TestCity");
-        clientService.saveClient(bank, testClient);
-        Client foundClient = clientService.findClientByName(bank,"TestClient");
+        clientService.saveClient(testClient);
+        Client foundClient = clientService.findClientByName("TestClient");
         assertEquals(testClient, foundClient);
     }
     @Test (expected = ClientAlreadyExistsException.class)
     public void testSaveClientAlreadyExists() throws ClientAlreadyExistsException {
-        clientService.saveClient(bank, new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
+        clientService.saveClient(new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
     }
     @Test
     public void testDeleteClient() throws ClientNotFoundException {
-        Client misha = clientService.findClientByName(bank, "Misha");
-        clientService.deleteClient(bank, misha);
+        Client misha = clientService.findClientByName("Misha");
+        clientService.deleteClient(misha);
         assertFalse(bank.getAllClients().containsValue(misha));
     }
     @Test (expected = ClientNotFoundException.class)
     public void testDeleteClientNotFound() throws ClientNotFoundException {
-        clientService.deleteClient(bank, new Client("Kiril", Gender.MALE, "kirill@mail.com", "+380567893412", "KirilCity"));
+        clientService.deleteClient( new Client("Kiril", Gender.MALE, "kirill@mail.com", "+380567893412", "KirilCity"));
     }
     @Test
     public void testAddAccount() {

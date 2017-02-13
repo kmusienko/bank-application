@@ -1,21 +1,32 @@
 package ua.spalah.bank.services.impl;
 
+import ua.spalah.bank.commands.BankCommander;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.exceptions.OverdraftLimitExceededException;
 import ua.spalah.bank.models.type.AccountType;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
+import ua.spalah.bank.services.AccountDao;
 import ua.spalah.bank.services.AccountService;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by Kostya on 05.01.2017.
  */
 public class AccountServiceImpl implements AccountService {
+    private AccountDao accountDao;
+
+    public AccountServiceImpl(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
     @Override
     public void deposit(Account account, double amount) {
 
         if (amount <= 0) throw new IllegalArgumentException("Amount can't be negative.");
         account.setBalance(account.getBalance() + amount);
+        accountDao.update(BankCommander.currentClient.getId(), account);
     }
 
     @Override
@@ -29,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
             double available = account.getBalance() + ((CheckingAccount) account).getOverdraft();
             if (available < amount) throw new OverdraftLimitExceededException(available);
             account.setBalance(account.getBalance() - amount);
+            accountDao.update(BankCommander.currentClient.getId(), account);
         } else {
             throw new IllegalArgumentException("Unknown type");
         }
@@ -36,7 +48,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void transfer(Account fromAccount, Account toAccount, double amount) throws NotEnoughFundsException {
+        // не могу понять как грамотно прикрутить транзакции и батчи.
         withdraw(fromAccount, amount);
         deposit(toAccount, amount);
+
+    }
+    @Override
+    public Account findActiveAccountByClientName(String clientName) {
+        return accountDao.findActiveAccountByClientName(clientName);
     }
 }

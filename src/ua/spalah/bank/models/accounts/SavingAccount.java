@@ -10,11 +10,19 @@ public class SavingAccount implements Account {
     private long id;
     private double balance;
     private final AccountType accountType;
+    protected SavingAccount(long id, double balance, AccountType accountType) {
+        this.id = id;
+        this.balance = balance;
+        this.accountType = accountType;
+    }
     protected SavingAccount(double balance, AccountType accountType) {
         this.balance = balance;
         this.accountType = accountType;
     }
 
+    public SavingAccount(long id, double balance) {
+        this(id, balance, AccountType.SAVING);
+    }
     public SavingAccount(double balance) {
         this(balance, AccountType.SAVING);
     }

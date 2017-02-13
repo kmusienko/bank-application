@@ -24,7 +24,7 @@ public class FindClientCommand extends AbstractCommand implements Command { // Ð
         String name = read();
 
         try {
-            BankCommander.currentClient = clientService.findClientByName(BankCommander.currentBank, name);
+            BankCommander.currentClient = clientService.findClientByName(name);
             write("Client " + BankCommander.currentClient.getName() + " successfully was found");
         } catch (ClientNotFoundException e) {
             System.out.println(e.getMessage());

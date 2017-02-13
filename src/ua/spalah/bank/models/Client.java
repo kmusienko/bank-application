@@ -11,11 +11,11 @@ import java.util.Objects;
  * Created by Kostya on 23.12.2016.
  */
 public class Client {
-    private int id;
+    private long id;
     private String name;
     private Gender gender;
     private Account activeAccount;
-    private ArrayList<Account> accounts = new ArrayList<>();
+    private List<Account> accounts = new ArrayList<>();
     private String email;
     private String tel;
     private String city;
@@ -27,7 +27,7 @@ public class Client {
         this.tel = tel;
         this.city = city;
     }
-    public Client(int id, String name, Gender gender, String email, String tel, String city) {
+    public Client(long id, String name, Gender gender, String email, String tel, String city) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -36,7 +36,11 @@ public class Client {
         this.city = city;
     }
 
-    public int getId() {
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public long getId() {
         return id;
     }
     public void setId(int id) {

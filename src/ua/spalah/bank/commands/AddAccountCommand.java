@@ -23,7 +23,6 @@ public class AddAccountCommand extends AbstractCommand implements Command {
       
     }
 
-
     @Override
     public void execute() {
         if (BankCommander.currentClient == null) {
@@ -52,11 +51,12 @@ public class AddAccountCommand extends AbstractCommand implements Command {
             if (isCorrectType) {
                 clientService.addAccount(BankCommander.currentClient, account);
                 if (BankCommander.currentClient.getAccounts().size() == 1) {
-                    BankCommander.currentClient.setActiveAccount(account);
+                    clientService.selectActiveAccount(BankCommander.currentClient, account);
+
                 } else {
                     write("Do you want to make this account active? (y/n)");
                     if (read().charAt(0) == 'y') {
-                        BankCommander.currentClient.setActiveAccount(account);
+                        clientService.selectActiveAccount(BankCommander.currentClient, account);
                     }
                 }
                 write("Operation successfully completed");

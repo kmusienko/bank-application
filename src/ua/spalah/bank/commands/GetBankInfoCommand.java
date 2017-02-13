@@ -18,12 +18,12 @@ public class GetBankInfoCommand extends AbstractCommand implements Command {
 
     @Override
     public void execute() {
-        write("Number of clients: " + bankReportService.getNumberOfClients(BankCommander.currentBank) + "\n" +
-                            "Number of accounts: " + bankReportService.getNumberOfAccounts(BankCommander.currentBank) + "\n" +
-                            "Total account sum: " + bankReportService.getTotalAccountSum(BankCommander.currentBank) + "\n" +
-                            "Bank credit sum: " + bankReportService.getBankCreditSum(BankCommander.currentBank) + "\n" +
-                            "All clients sorted by name: \n" + bankReportService.getClientsSortedByName(BankCommander.currentBank) + "\n" +
-                            "All clients sorted by city: \n" + bankReportService.getClientsByCity(BankCommander.currentBank));
+        write("Number of clients: " + bankReportService.getNumberOfClients() + "\n" +
+                            "Number of accounts: " + bankReportService.getNumberOfAccounts() + "\n" +
+                            "Total account sum: " + bankReportService.getTotalAccountSum() + "\n" +
+                            "Bank credit sum: " + bankReportService.getBankCreditSum() + "\n" +
+                            "All clients sorted by name: \n" + bankReportService.getClientsSortedByName() + "\n" +
+                            "All clients sorted by city: \n" + bankReportService.getClientsByCity());
     }
 
     @Override

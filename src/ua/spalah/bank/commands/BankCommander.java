@@ -9,16 +9,15 @@ import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
-import ua.spalah.bank.services.AccountService;
-import ua.spalah.bank.services.BankReportService;
-import ua.spalah.bank.services.ClientService;
-import ua.spalah.bank.services.impl.AccountServiceImpl;
-import ua.spalah.bank.services.impl.BankReportServiceImpl;
-import ua.spalah.bank.services.impl.ClientServiceImpl;
+import ua.spalah.bank.services.*;
+import ua.spalah.bank.services.impl.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -33,6 +32,8 @@ public class BankCommander {
     // хранит в себе клиента с которым мы работаем в данный момент
     public static Client currentClient;
 
+    public static Connection connection;
+
     // Список команд которые мы можем выполнять
     private Command[] commands;
 
@@ -42,13 +43,15 @@ public class BankCommander {
 
     private void init() {
         try {
-
-            ClientService clientService = new ClientServiceImpl();
-            AccountService accountService = new AccountServiceImpl();
-            BankReportService bankReportService = new BankReportServiceImpl();
+            ClientDao clientDao = new ClientDaoImpl();
+            AccountDao accountDao = new AccountDaoImpl();
+            ClientService clientService = new ClientServiceImpl(clientDao, accountDao);
+            AccountService accountService = new AccountServiceImpl(accountDao);
+            BankReportService bankReportService = new BankReportServiceImpl(clientDao, accountDao);
             IO ioConsole = new ConsoleIO();
-
-            Bank bank = new Bank();
+            Class.forName("org.h2.Driver");
+            connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/D:\\Programming\\SpalahJavaTasks\\BankApplication/dbbank", "sa", "");
+      //      Bank bank = new Bank();
 //            Client kostya = new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro");
 //            Client misha = new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa");
 //            Client gera = new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro");
@@ -72,46 +75,46 @@ public class BankCommander {
 //            clientService.addAccount(kostya, c3);
 
             /* Инициализация данных из файлов */
-            String pathRoot = System.getProperty("user.dir");
-            Path pathAccounts = Paths.get(pathRoot, "resources", "accounts.txt");
-            Path pathClients = Paths.get(pathRoot, "resources", "clients.txt");
-
-            List<String> clientLines = Files.readAllLines(pathClients);
-            for (String clientString : clientLines) {
-                String[] clientTokens = clientString.split("::");
-                String name = clientTokens[0];
-                Gender gender = Gender.valueOf(clientTokens[1]);
-//                switch (clientTokens[1]) {
-//                    case "MALE": gender = Gender.MALE; break;
-//                    case "FEMALE" : gender = Gender.FEMALE; break;
+//            String pathRoot = System.getProperty("user.dir");
+//            Path pathAccounts = Paths.get(pathRoot, "resources", "accounts.txt");
+//            Path pathClients = Paths.get(pathRoot, "resources", "clients.txt");
+//
+//            List<String> clientLines = Files.readAllLines(pathClients);
+//            for (String clientString : clientLines) {
+//                String[] clientTokens = clientString.split("::");
+//                String name = clientTokens[0];
+//                Gender gender = Gender.valueOf(clientTokens[1]);
+////                switch (clientTokens[1]) {
+////                    case "MALE": gender = Gender.MALE; break;
+////                    case "FEMALE" : gender = Gender.FEMALE; break;
+////                    default: throw new IllegalArgumentException("Initialization error");
+////                }
+//                String email = clientTokens[2];
+//                String telephone = clientTokens[3];
+//                String city = clientTokens[4];
+//                clientService.saveClient(bank, new Client(name, gender, email, telephone, city));
+//            }
+//            // можно переделать чуть проще:
+//            List<String> accountsLines = Files.readAllLines(pathAccounts);
+//            for (String accountString : accountsLines) {
+//                String[] accountTokens = accountString.split("::");
+//                Client client = clientService.findClientByName(bank, accountTokens[0]);
+//                Account account = null;
+//                double balance = Double.parseDouble(accountTokens[2]);
+//                double overdraft = 0;
+//                if (accountTokens.length == 4) {
+//                    overdraft = Double.parseDouble(accountTokens[3]);
+//                }
+//                switch (accountTokens[1]) {
+//                    case "SAVING" : account = new SavingAccount(balance); break;
+//                    case "CHECKING" : account = new CheckingAccount(balance, overdraft); break;
 //                    default: throw new IllegalArgumentException("Initialization error");
 //                }
-                String email = clientTokens[2];
-                String telephone = clientTokens[3];
-                String city = clientTokens[4];
-                clientService.saveClient(bank, new Client(name, gender, email, telephone, city));
-            }
-            // можно переделать чуть проще:
-            List<String> accountsLines = Files.readAllLines(pathAccounts);
-            for (String accountString : accountsLines) {
-                String[] accountTokens = accountString.split("::");
-                Client client = clientService.findClientByName(bank, accountTokens[0]);
-                Account account = null;
-                double balance = Double.parseDouble(accountTokens[2]);
-                double overdraft = 0;
-                if (accountTokens.length == 4) {
-                    overdraft = Double.parseDouble(accountTokens[3]);
-                }
-                switch (accountTokens[1]) {
-                    case "SAVING" : account = new SavingAccount(balance); break;
-                    case "CHECKING" : account = new CheckingAccount(balance, overdraft); break;
-                    default: throw new IllegalArgumentException("Initialization error");
-                }
-                clientService.addAccount(client, account);
-            }
+//                clientService.addAccount(client, account);
+//            }
             /**/
 
-            currentBank = bank;
+            //currentBank = bank;
 //            List<Client> clients = new TestSqlJdbc().read();
 //            for (Client client : clients) {
 //                clientService.saveClient(currentBank, client);

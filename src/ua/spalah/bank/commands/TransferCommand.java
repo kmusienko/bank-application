@@ -32,7 +32,7 @@ public class TransferCommand extends AbstractCommand implements Command {
             write("Enter client's name who will receive money:");
             String name = read();
             try {
-                Client receiver = clientService.findClientByName(BankCommander.currentBank, name);
+                Client receiver = clientService.findClientByName(name);
                 write("Please enter amount: ");
                 double amount = Double.parseDouble(read());
                 accountService.transfer(BankCommander.currentClient.getActiveAccount(), receiver.getActiveAccount(), amount);
