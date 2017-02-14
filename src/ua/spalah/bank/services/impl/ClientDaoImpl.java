@@ -2,9 +2,11 @@ package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.commands.BankCommander;
 import ua.spalah.bank.models.Client;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.AccountDao;
 import ua.spalah.bank.services.ClientDao;
+import ua.spalah.bank.services.ClientService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,12 +23,17 @@ public class ClientDaoImpl implements ClientDao {
     public Client save(Client client) {
         Client newClient = null;
         try {
-            PreparedStatement preparedStatement = BankCommander.connection.prepareStatement("INSERT INTO PUBLIC.CLIENTS (NAME, GENDER, TEL, EMAIL, CITY) VALUES (?,?,?,?,?)");
+            PreparedStatement preparedStatement = BankCommander.connection.prepareStatement("INSERT INTO PUBLIC.CLIENTS (NAME, GENDER, TEL, EMAIL, CITY, ACTIVE_ACCOUNT_ID) VALUES (?,?,?,?,?,?)");
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getGender() == Gender.MALE ? "Male" : "Female");
             preparedStatement.setString(3, client.getTel());
             preparedStatement.setString(4, client.getEmail());
             preparedStatement.setString(5, client.getCity());
+            if (client.getActiveAccountId() != 0) {
+                preparedStatement.setLong(6, client.getActiveAccountId());
+            } else {
+                preparedStatement.setNull(6, Types.NULL);
+            }
 
             preparedStatement.executeUpdate();
 
@@ -51,7 +58,11 @@ public class ClientDaoImpl implements ClientDao {
             preparedStatement.setString(3, client.getTel());
             preparedStatement.setString(4, client.getEmail());
             preparedStatement.setString(5, client.getCity());
-            preparedStatement.setLong(6, client.getActiveAccount().getId());
+            if (client.getActiveAccountId() != 0) {
+                preparedStatement.setLong(6, client.getActiveAccountId());
+            } else {
+                preparedStatement.setNull(6, Types.NULL);
+            }
             preparedStatement.setLong(7, client.getId());
 
             preparedStatement.executeUpdate();
@@ -81,6 +92,13 @@ public class ClientDaoImpl implements ClientDao {
     @Override
     public void delete(long clientId) {
         try {
+            Client client = find(clientId);
+            client.setActiveAccountId(0);
+            update(client);
+            List<Account> accounts = accountDao.findByClientId(clientId);
+            for (Account account : accounts) {
+                accountDao.delete(account.getId());
+            }
             PreparedStatement preparedStatement = BankCommander.connection.prepareStatement("DELETE FROM PUBLIC.CLIENTS WHERE ID = ?");
             preparedStatement.setLong(1, clientId);
             preparedStatement.executeUpdate();

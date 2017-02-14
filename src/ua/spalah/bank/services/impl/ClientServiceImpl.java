@@ -27,13 +27,12 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client findClientByName(String name) throws ClientNotFoundException {
-//        Client client = bank.getAllClients().get(name);
-//        if (client == null) {
-//            throw new ClientNotFoundException(name);
-//        } else {
-//            return client;
-//        }
-        return clientDao.findByName(name);
+        Client client = clientDao.findByName(name);
+        if (client == null) {
+            throw new ClientNotFoundException(name);
+        } else {
+            return client;
+        }
     }
 
     @Override
@@ -62,19 +61,21 @@ public class ClientServiceImpl implements ClientService {
 
 //        client.setActiveAccount(null);
 //        clientDao.update(client);
-        List<Account> accounts = accountDao.findByClientId(client.getId());
-        for (Account account : accounts) {
-            accountDao.delete(account.getId());
-        }
+//        List<Account> accounts = accountDao.findByClientId(client.getId());
+//        for (Account account : accounts) {
+//            accountDao.delete(account.getId());
+//        }
+
         clientDao.delete(client.getId());
     }
 
     @Override
     public void addAccount(Client client, Account account) {
         client.getAccounts().add(account);
-//        if (client.getAccounts().size() == 1) {
-//            client.setActiveAccount(account);
-//        }
+        if (client.getAccounts().size() == 1) {
+            client.setActiveAccount(account);
+            client.setActiveAccountId(account.getId());
+        }
 
         accountDao.save(client.getId(), account);
 
@@ -97,12 +98,12 @@ public class ClientServiceImpl implements ClientService {
             String isActive = client.getActiveAccount().getId() == accounts.get(i).getId() ? ", *active account*" : "";
             System.out.println("[" + (i + 1) + "] " + accounts.get(i).toString() + isActive);
         }
-
     }
 
     @Override
     public void selectActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
+        client.setActiveAccountId(account.getId());
         clientDao.update(client);
     }
 }

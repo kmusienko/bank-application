@@ -19,6 +19,7 @@ public class Client {
     private String email;
     private String tel;
     private String city;
+    private long activeAccountId;
 
     public Client(String name, Gender gender, String email, String tel, String city) {
         this.name = name;
@@ -86,6 +87,13 @@ public class Client {
 
     public Gender getGender() {
         return gender;
+    }
+    public long getActiveAccountId() {
+        return activeAccountId;
+    }
+
+    public void setActiveAccountId(long activeAccountId) {
+        this.activeAccountId = activeAccountId;
     }
 
     @Override
