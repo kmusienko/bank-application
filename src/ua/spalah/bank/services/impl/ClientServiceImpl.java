@@ -70,15 +70,15 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void addAccount(Client client, Account account) {
+    public Account addAccount(Client client, Account account) {
+       account = accountDao.save(client.getId(), account);
         client.getAccounts().add(account);
         if (client.getAccounts().size() == 1) {
             client.setActiveAccount(account);
             client.setActiveAccountId(account.getId());
+            clientDao.update(client);
         }
-
-        accountDao.save(client.getId(), account);
-
+        return account;
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface ClientService {
     List<Client> findAllClients();
     Client saveClient(Client client) throws ClientAlreadyExistsException;;
     void deleteClient(Client client) throws ClientNotFoundException;
-    void addAccount(Client client, Account account);
+    Account addAccount(Client client, Account account);
     double getTotalBalance(Client client);
     void getAccountsInfo(Client client);
     void selectActiveAccount(Client client, Account account);

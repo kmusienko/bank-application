@@ -49,11 +49,8 @@ public class AddAccountCommand extends AbstractCommand implements Command {
                     write("Unknown type.");
             }
             if (isCorrectType) {
-                clientService.addAccount(BankCommander.currentClient, account);
-                if (BankCommander.currentClient.getAccounts().size() == 1) {
-                    clientService.selectActiveAccount(BankCommander.currentClient, account);
-
-                } else {
+               account = clientService.addAccount(BankCommander.currentClient, account);
+                if (BankCommander.currentClient.getAccounts().size() > 1) {
                     write("Do you want to make this account active? (y/n)");
                     if (read().charAt(0) == 'y') {
                         clientService.selectActiveAccount(BankCommander.currentClient, account);

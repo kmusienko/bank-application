@@ -31,6 +31,9 @@ public class AccountDaoImpl implements AccountDao {
             preparedStatement.setString(3, account.getType() == AccountType.SAVING ? "saving" : "checking");
             preparedStatement.setLong(4, client_id);
             preparedStatement.executeUpdate();
+
+            account = findByClientId(client_id).get(findByClientId(client_id).size()-1);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +74,7 @@ public class AccountDaoImpl implements AccountDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return account;
     }
 
     @Override
