@@ -1,17 +1,17 @@
 package ua.spalah.bank.services;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+import ua.spalah.bank.dao.impl.AccountDaoImpl;
+import ua.spalah.bank.dao.impl.ClientDaoImpl;
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.models.type.Gender;
-import ua.spalah.bank.services.ClientService;
-import ua.spalah.bank.services.impl.AccountDaoImpl;
-import ua.spalah.bank.services.impl.ClientDaoImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
 import java.util.HashMap;
@@ -24,16 +24,15 @@ import static org.junit.Assert.assertFalse;
  * Created by Kostya on 26.01.2017.
  */
 public class TestClientService {
-    private Bank bank;
     private ClientService clientService;
 
     @Before
     public void init() {
-        bank = new Bank();
-        clientService = new ClientServiceImpl(new ClientDaoImpl(), new AccountDaoImpl());
-        bank.getAllClients().put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
-        bank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
-        bank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
+
+//        clientService = new ClientServiceImpl(new ClientDaoImpl(new AccountDaoImpl()), new AccountDaoImpl());
+//        clientService.getAllClients().put("Kostya", new Client("Kostya", Gender.MALE, "pro@gmail.com", "+380636908681", "Dnipro"));
+//        bank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
+//        bank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
 //        CheckingAccount c1 = new CheckingAccount(1000, 800);
 //        SavingAccount s1 = new SavingAccount(3000);
 //        CheckingAccount c2 = new CheckingAccount(17000, 7000);
@@ -80,7 +79,7 @@ public class TestClientService {
     public void testDeleteClient() throws ClientNotFoundException {
         Client misha = clientService.findClientByName("Misha");
         clientService.deleteClient(misha);
-        assertFalse(bank.getAllClients().containsValue(misha));
+//        assertFalse(bank.getAllClients().containsValue(misha));
     }
     @Test (expected = ClientNotFoundException.class)
     public void testDeleteClientNotFound() throws ClientNotFoundException {
@@ -105,7 +104,7 @@ public class TestClientService {
         assertEquals(1100, clientService.getTotalBalance(vasya), 0);
     }
     @Test
-    public void testSelectActiveAccount() {
+    public void testSelectActiveAccount() throws ClientNotHaveAccountException {
         Client vasya = new Client("Vasya", Gender.MALE, "vasya@mail.ru", "+380675674567", "Lviv");
         Account sAcc = new SavingAccount(500);
         Account chAcc = new CheckingAccount(600, 200);

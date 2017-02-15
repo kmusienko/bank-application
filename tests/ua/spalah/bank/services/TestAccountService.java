@@ -6,11 +6,8 @@ import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
-import ua.spalah.bank.services.AccountService;
-import ua.spalah.bank.services.impl.AccountDaoImpl;
+import ua.spalah.bank.dao.impl.AccountDaoImpl;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
-
-import java.sql.Connection;
 
 import static org.junit.Assert.assertEquals;
 
