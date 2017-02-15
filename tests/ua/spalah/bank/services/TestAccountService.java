@@ -2,6 +2,7 @@ package ua.spalah.bank.services;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.spalah.bank.dao.impl.ClientDaoImpl;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
@@ -21,7 +22,7 @@ public class TestAccountService {
 
     @Before
     public void init() {
-        accountService = new AccountServiceImpl(new AccountDaoImpl());
+//        accountService = new AccountServiceImpl(new AccountDaoImpl(), new ClientDaoImpl(a));
         saving = new SavingAccount(500);
         checking = new CheckingAccount(500, 200);
     }

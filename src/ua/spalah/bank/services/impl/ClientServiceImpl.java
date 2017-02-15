@@ -2,15 +2,14 @@ package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
-import ua.spalah.bank.services.AccountDao;
-import ua.spalah.bank.services.ClientDao;
+import ua.spalah.bank.dao.AccountDao;
+import ua.spalah.bank.dao.ClientDao;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kostya on 05.01.2017.
@@ -42,43 +41,20 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client saveClient(Client client) throws ClientAlreadyExistsException {
-//        if (!bank.getAllClients().containsKey(client.getName())) {
-//            bank.getAllClients().put(client.getName(), client);
-//        } else {
-//            throw new ClientAlreadyExistsException(client.getName());
-//        }
-
-        return clientDao.saveOrUpdate(client);
+        if (!clientDao.findAll().contains(client)) {
+            return clientDao.saveOrUpdate(client);
+        } else {
+            throw new ClientAlreadyExistsException(client.getName());
+        }
     }
 
     @Override
     public void deleteClient(Client client) throws ClientNotFoundException {
-//        if (bank.getAllClients().containsKey(client.getName())) {
-//            bank.getAllClients().remove(client.getName());
-//        } else {
-//            throw new ClientNotFoundException(client.getName());
-//        }
-
-//        client.setActiveAccount(null);
-//        clientDao.update(client);
-//        List<Account> accounts = accountDao.findByClientId(client.getId());
-//        for (Account account : accounts) {
-//            accountDao.delete(account.getId());
-//        }
-
-        clientDao.delete(client.getId());
-    }
-
-    @Override
-    public Account addAccount(Client client, Account account) {
-       account = accountDao.save(client.getId(), account);
-        client.getAccounts().add(account);
-        if (client.getAccounts().size() == 1) {
-            client.setActiveAccount(account);
-            client.setActiveAccountId(account.getId());
-            clientDao.update(client);
+        if (clientDao.findAll().contains(client)) {
+            clientDao.delete(client.getId());
+        } else {
+            throw new ClientNotFoundException(client.getName());
         }
-        return account;
     }
 
     @Override
@@ -91,8 +67,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Deprecated
     public void getAccountsInfo(Client client) {
-     //   List<Account> accounts = client.getAccounts();
         List<Account> accounts = accountDao.findByClientId(client.getId());
         for (int i = 0; i < accounts.size(); i++) {
             String isActive = client.getActiveAccount().getId() == accounts.get(i).getId() ? ", *active account*" : "";
@@ -101,9 +77,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void selectActiveAccount(Client client, Account account) {
-        client.setActiveAccount(account);
-        client.setActiveAccountId(account.getId());
-        clientDao.update(client);
+    public void selectActiveAccount(Client client, Account account) throws ClientNotHaveAccountException {
+        /*
+        * Имеет ли смысл добавлять валидацию, если эту команду вызывает
+        * только SelectActiveAccountCommand(), в которой пользователю предоставляется
+        * выбрать лишь те аккаунты, которые есть у текущего клиента?
+        * Также эта команда вызывается при создании первого аккаунта у текущего клиента.*/
+        if (client.getAccounts().contains(account)) {
+            client.setActiveAccount(account);
+            clientDao.update(client);
+        } else {
+            throw new ClientNotHaveAccountException(client.getName());
+        }
+
     }
 }

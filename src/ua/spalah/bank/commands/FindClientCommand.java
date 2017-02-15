@@ -5,8 +5,6 @@ import ua.spalah.bank.ioCommander.AbstractCommand;
 import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.services.ClientService;
 
-import java.util.Scanner;
-
 /**
  * Created by Kostya on 12.01.2017.
  */

@@ -91,7 +91,7 @@ public class TestClientService {
         Account sAcc = new SavingAccount(500);
         vasya.getAccounts().add(sAcc);
         Client petya = new Client("Petya", Gender.MALE, "petya@mail.ru", "+380675674567", "Lviv");
-        clientService.addAccount(petya, sAcc);
+       // accountService.addAccount(petya, sAcc);
         assertEquals(vasya.getAccounts(), petya.getAccounts());
     }
     @Test

@@ -2,12 +2,11 @@ package ua.spalah.bank.services;
 
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kostya on 05.01.2017.
@@ -17,8 +16,7 @@ public interface ClientService {
     List<Client> findAllClients();
     Client saveClient(Client client) throws ClientAlreadyExistsException;;
     void deleteClient(Client client) throws ClientNotFoundException;
-    Account addAccount(Client client, Account account);
     double getTotalBalance(Client client);
     void getAccountsInfo(Client client);
-    void selectActiveAccount(Client client, Account account);
+    void selectActiveAccount(Client client, Account account) throws ClientNotHaveAccountException;
 }

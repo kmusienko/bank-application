@@ -1,26 +1,32 @@
 package ua.spalah.bank.services.impl;
 
-import ua.spalah.bank.commands.BankCommander;
-import ua.spalah.bank.models.Bank;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
-import ua.spalah.bank.services.AccountDao;
+import ua.spalah.bank.dao.AccountDao;
 import ua.spalah.bank.services.BankReportService;
-import ua.spalah.bank.services.ClientDao;
+import ua.spalah.bank.dao.ClientDao;
+import ua.spalah.bank.services.ClientService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kostya on 05.01.2017.
  */
 public class BankReportServiceImpl implements BankReportService {
-    ClientDao clientDao;
-    AccountDao accountDao;
-    ClientServiceImpl  clientService = new ClientServiceImpl(clientDao, accountDao);
 
-    public BankReportServiceImpl(ClientDao clientDao, AccountDao accountDao) {
+    private ClientDao clientDao;
+    private AccountDao accountDao;
+    private ClientService  clientService;
+
+    public BankReportServiceImpl(ClientService clientService, ClientDao clientDao, AccountDao accountDao) {
         this.clientDao = clientDao;
-        this.accountDao=accountDao;
+        this.accountDao = accountDao;
+        this.clientService = clientService;
     }
 
     @Override

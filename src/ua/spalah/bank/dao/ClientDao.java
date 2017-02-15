@@ -1,7 +1,8 @@
-package ua.spalah.bank.services;
+package ua.spalah.bank.dao;
 
 import ua.spalah.bank.models.Client;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -23,4 +24,5 @@ public interface ClientDao {
     List<Client> findAll();
     // Находит клиента по имени
     Client findByName(String name);
+    Client createClient(ResultSet resultSet);
 }

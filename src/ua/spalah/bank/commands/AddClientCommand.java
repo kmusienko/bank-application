@@ -7,7 +7,6 @@ import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.type.Gender;
 import ua.spalah.bank.services.ClientService;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,8 +28,8 @@ public class AddClientCommand extends AbstractCommand implements Command {
         write("Please enter client's gender(Male/Female):");
         String stringGender = read();
         Gender gender = null;
-        String email = "";
-        String tel = "";
+        String email;
+        String tel;
         try {
             if (stringGender.equalsIgnoreCase("Male")) gender = Gender.MALE;
             else if (stringGender.equalsIgnoreCase("Female")) gender = Gender.FEMALE;
