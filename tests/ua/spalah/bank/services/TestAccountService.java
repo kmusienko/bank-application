@@ -1,12 +1,13 @@
-package ua.spalah.bank.tests;
+package ua.spalah.bank.services;
 
 import org.junit.Before;
 import org.junit.Test;
+import ua.spalah.bank.dao.impl.ClientDaoImpl;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
-import ua.spalah.bank.services.AccountService;
+import ua.spalah.bank.dao.impl.AccountDaoImpl;
 import ua.spalah.bank.services.impl.AccountServiceImpl;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class TestAccountService {
 
     @Before
     public void init() {
-        accountService = new AccountServiceImpl();
+//        accountService = new AccountServiceImpl(new AccountDaoImpl(), new ClientDaoImpl(a));
         saving = new SavingAccount(500);
         checking = new CheckingAccount(500, 200);
     }

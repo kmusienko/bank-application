@@ -6,7 +6,6 @@ import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.services.AccountService;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  * Created by Kostya on 12.01.2017.

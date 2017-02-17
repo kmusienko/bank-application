@@ -6,8 +6,6 @@ import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.services.ClientService;
 
-import java.util.Scanner;
-
 /**
  * Created by Kostya on 12.01.2017.
  */
@@ -25,8 +23,8 @@ public class RemoveClientCommand extends AbstractCommand implements Command {
         write("Please enter client's name:");
         String name = read();
         try {
-            Client client = clientService.findClientByName(BankCommander.currentBank, name);
-            clientService.deleteClient(BankCommander.currentBank, client);
+            Client client = clientService.findClientByName(name);
+            clientService.deleteClient(client);
             write("Client " + name + " successfully removed");
         } catch (ClientNotFoundException e) {
             write(e.getMessage());

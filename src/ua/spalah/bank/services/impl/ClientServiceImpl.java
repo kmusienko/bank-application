@@ -2,22 +2,31 @@ package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
-import ua.spalah.bank.models.Bank;
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
+import ua.spalah.bank.dao.AccountDao;
+import ua.spalah.bank.dao.ClientDao;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Kostya on 05.01.2017.
  */
 public class ClientServiceImpl implements ClientService {
 
+    private ClientDao clientDao;
+    private AccountDao accountDao;
+
+    public ClientServiceImpl(ClientDao clientDao, AccountDao accountDao) {
+        this.clientDao = clientDao;
+        this.accountDao = accountDao;
+    }
+
     @Override
-    public Client findClientByName(Bank bank, String name) throws ClientNotFoundException {
-        Client client = bank.getAllClients().get(name);
+    public Client findClientByName(String name) throws ClientNotFoundException {
+        Client client = clientDao.findByName(name);
         if (client == null) {
             throw new ClientNotFoundException(name);
         } else {
@@ -26,36 +35,26 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Map<String, Client> findAllClients(Bank bank) {
-        return bank.getAllClients();
+    public List<Client> findAllClients() {
+        return clientDao.findAll();
     }
 
     @Override
-    public Client saveClient(Bank bank, Client client) throws ClientAlreadyExistsException {
-        if (!bank.getAllClients().containsKey(client.getName())) {
-            bank.getAllClients().put(client.getName(), client);
+    public Client saveClient(Client client) throws ClientAlreadyExistsException {
+        if (!clientDao.findAll().contains(client)) {
+            return clientDao.saveOrUpdate(client);
         } else {
             throw new ClientAlreadyExistsException(client.getName());
         }
-        return client;
     }
 
     @Override
-    public void deleteClient(Bank bank, Client client) throws ClientNotFoundException {
-        if (bank.getAllClients().containsKey(client.getName())) {
-            bank.getAllClients().remove(client.getName());
+    public void deleteClient(Client client) throws ClientNotFoundException {
+        if (clientDao.findAll().contains(client)) {
+            clientDao.delete(client.getId());
         } else {
             throw new ClientNotFoundException(client.getName());
         }
-    }
-
-    @Override
-    public void addAccount(Client client, Account account) {
-        client.getAccounts().add(account);
-        if (client.getAccounts().size() == 1) {
-            client.setActiveAccount(account);
-        }
-
     }
 
     @Override
@@ -68,16 +67,28 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Deprecated
     public void getAccountsInfo(Client client) {
-        List<Account> accounts = client.getAccounts();
+        List<Account> accounts = accountDao.findByClientId(client.getId());
         for (int i = 0; i < accounts.size(); i++) {
-            String isActive = client.getActiveAccount() == accounts.get(i) ? ", *active account*" : "";
+            String isActive = client.getActiveAccount().getId() == accounts.get(i).getId() ? ", *active account*" : "";
             System.out.println("[" + (i + 1) + "] " + accounts.get(i).toString() + isActive);
         }
     }
 
     @Override
-    public void selectActiveAccount(Client client, Account account) {
-        client.setActiveAccount(account);
+    public void selectActiveAccount(Client client, Account account) throws ClientNotHaveAccountException {
+        /*
+        * Имеет ли смысл добавлять валидацию, если эту команду вызывает
+        * только SelectActiveAccountCommand(), в которой пользователю предоставляется
+        * выбрать лишь те аккаунты, которые есть у текущего клиента?
+        * Также эта команда вызывается при создании первого аккаунта у текущего клиента.*/
+        if (client.getAccounts().contains(account)) {
+            client.setActiveAccount(account);
+            clientDao.update(client);
+        } else {
+            throw new ClientNotHaveAccountException(client.getName());
+        }
+
     }
 }

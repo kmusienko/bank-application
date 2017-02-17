@@ -1,12 +1,12 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.ioCommander.AbstractCommand;
 import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Kostya on 16.01.2017.
@@ -37,6 +37,8 @@ public class SelectActiveAccountCommand extends AbstractCommand implements Comma
                 }
             } catch (IndexOutOfBoundsException e) {
                 write("Out of available index!");
+            } catch (ClientNotHaveAccountException e) {
+                write(e.getMessage());
             }
         }
     }

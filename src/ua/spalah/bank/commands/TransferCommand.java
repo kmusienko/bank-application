@@ -1,15 +1,13 @@
 package ua.spalah.bank.commands;
 
-import ua.spalah.bank.exceptions.ClientNotFoundException;
 import ua.spalah.bank.exceptions.NotEnoughFundsException;
 import ua.spalah.bank.ioCommander.AbstractCommand;
 import ua.spalah.bank.ioCommander.IO;
-import ua.spalah.bank.models.Client;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  * Created by Kostya on 12.01.2017.
@@ -32,14 +30,14 @@ public class TransferCommand extends AbstractCommand implements Command {
             write("Enter client's name who will receive money:");
             String name = read();
             try {
-                Client receiver = clientService.findClientByName(BankCommander.currentBank, name);
+                Account activeAccount = accountService.findActiveAccountByClientName(name);
                 write("Please enter amount: ");
                 double amount = Double.parseDouble(read());
-                accountService.transfer(BankCommander.currentClient.getActiveAccount(), receiver.getActiveAccount(), amount);
+                accountService.transfer(BankCommander.currentClient.getActiveAccount(), activeAccount, amount);
                 write("Operation successfully completed");
             } catch (InputMismatchException e) {
                 write("This is not a number!");
-            } catch (NotEnoughFundsException | ClientNotFoundException e) {
+            } catch (NotEnoughFundsException e) {
                 write(e.getMessage());
             }
         }

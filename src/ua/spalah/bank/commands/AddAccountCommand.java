@@ -1,13 +1,13 @@
 package ua.spalah.bank.commands;
 
+import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.ioCommander.AbstractCommand;
 import ua.spalah.bank.ioCommander.IO;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
 import ua.spalah.bank.models.accounts.SavingAccount;
+import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.ClientService;
-
-import java.util.Scanner;
 
 /**
  * Created by Kostya on 16.01.2017.
@@ -16,13 +16,14 @@ import java.util.Scanner;
 // делаем этот активным, если уже есть, то прелагаем сделать его активным опционально)
 public class AddAccountCommand extends AbstractCommand implements Command {
     private final ClientService clientService;
+    private final AccountService accountService;
 
-    public AddAccountCommand(ClientService clientService, IO io) {
+    public AddAccountCommand(ClientService clientService, AccountService accountService, IO io) {
         super(io);
         this.clientService = clientService;
+        this.accountService = accountService;
       
     }
-
 
     @Override
     public void execute() {
@@ -50,13 +51,15 @@ public class AddAccountCommand extends AbstractCommand implements Command {
                     write("Unknown type.");
             }
             if (isCorrectType) {
-                clientService.addAccount(BankCommander.currentClient, account);
-                if (BankCommander.currentClient.getAccounts().size() == 1) {
-                    BankCommander.currentClient.setActiveAccount(account);
-                } else {
+               account = accountService.addAccount(BankCommander.currentClient, account);
+                if (BankCommander.currentClient.getAccounts().size() > 1) {
                     write("Do you want to make this account active? (y/n)");
                     if (read().charAt(0) == 'y') {
-                        BankCommander.currentClient.setActiveAccount(account);
+                        try {
+                            clientService.selectActiveAccount(BankCommander.currentClient, account);
+                        } catch (ClientNotHaveAccountException e) {
+                            e.getMessage();
+                        }
                     }
                 }
                 write("Operation successfully completed");
