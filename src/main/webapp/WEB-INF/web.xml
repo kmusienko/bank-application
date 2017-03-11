@@ -1,0 +1,61 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <display-name>Archetype Created Web Application</display-name>
+    <listener>
+        <listener-class>ua.spalah.bank.servlets.ServletContextInitializer</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>findClientsServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.FindClientServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>findClientsServlet</servlet-name>
+        <url-pattern>/client</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>editClientServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.EditClientServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editClientServlet</servlet-name>
+        <url-pattern>/client/edit</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>addAccountServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.AddAccountServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addAccountServlet</servlet-name>
+        <url-pattern>/client/account/add</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>editAccountServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.EditAccountServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editAccountServlet</servlet-name>
+        <url-pattern>/client/account</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>depositServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.DepositServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>depositServlet</servlet-name>
+        <url-pattern>/client/account/deposit</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>withdrawServlet</servlet-name>
+        <servlet-class>ua.spalah.bank.servlets.WithdrawServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>withdrawServlet</servlet-name>
+        <url-pattern>/client/account/withdraw</url-pattern>
+    </servlet-mapping>
+</web-app>
