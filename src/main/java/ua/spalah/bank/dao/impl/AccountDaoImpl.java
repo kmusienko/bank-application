@@ -1,6 +1,5 @@
 package ua.spalah.bank.dao.impl;
 
-import ua.spalah.bank.commands.BankCommander;
 import ua.spalah.bank.dao.AccountDao;
 import ua.spalah.bank.exceptions.DataBaseException;
 import ua.spalah.bank.models.accounts.Account;

@@ -2,13 +2,22 @@ package ua.spalah.bank.models.accounts;
 
 import ua.spalah.bank.models.type.AccountType;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Created by Kostya on 23.12.2016.
  */
-public class CheckingAccount extends SavingAccount {
-
+@Entity
+@DiscriminatorValue("CH")
+public class CheckingAccount extends Account {
+    @Column(name = "OVERDRAFT")
     private double overdraft; //возможная задолженность.
-
+    public CheckingAccount() {
+        super(AccountType.CHECKING);
+    }
     public CheckingAccount(long id, double balance, double overdraft) {
         super(id, balance, AccountType.CHECKING);
         if (overdraft < 0) {

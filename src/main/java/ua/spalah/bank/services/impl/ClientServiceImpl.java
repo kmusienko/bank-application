@@ -4,9 +4,9 @@ import ua.spalah.bank.exceptions.ClientAlreadyExistsException;
 import ua.spalah.bank.exceptions.ClientNotFoundException;
 import ua.spalah.bank.exceptions.ClientNotHaveAccountException;
 import ua.spalah.bank.models.Client;
-import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.dao.AccountDao;
 import ua.spalah.bank.dao.ClientDao;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.ClientService;
 
 import java.util.List;

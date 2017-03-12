@@ -6,7 +6,7 @@
 //import ua.spalah.bank.exceptions.NotEnoughFundsException;
 //import ua.spalah.bank.models.accounts.Account;
 //import ua.spalah.bank.models.accounts.CheckingAccount;
-//import ua.spalah.bank.models.accounts.SavingAccount;
+//import ua.spalah.bank.models.accounts.Account;
 //import ua.spalah.bank.dao.impl.AccountDaoImpl;
 //import ua.spalah.bank.services.impl.AccountServiceImpl;
 //
@@ -23,7 +23,7 @@
 //    @Before
 //    public void init() {
 ////        accountService = new AccountServiceImpl(new AccountDaoImpl(), new ClientDaoImpl(a));
-//        saving = new SavingAccount(500);
+//        saving = new Account(500);
 //        checking = new CheckingAccount(500, 200);
 //    }
 //    @Test

@@ -1,8 +1,8 @@
 package ua.spalah.bank.services.impl;
 
 import ua.spalah.bank.models.Client;
-import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.dao.AccountDao;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.BankReportService;
 import ua.spalah.bank.dao.ClientDao;
 import ua.spalah.bank.services.ClientService;

@@ -21,7 +21,7 @@
 <c:if test="${account.accountType=='CHECKING'}">
     <h4>Overdraft: ${account.overdraft}</h4>
 </c:if>
-<form class="form-inline">
+<form class="form-inline" method="post">
     <div class="form-group">
         <label class="sr-only" for="amount">Amount (in dollars)</label>
         <div class="input-group">

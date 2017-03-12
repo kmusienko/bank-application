@@ -1,8 +1,8 @@
 package ua.spalah.bank.servlets;
 
 import ua.spalah.bank.models.Client;
-import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.CheckingAccount;
+import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.accounts.SavingAccount;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.ClientService;

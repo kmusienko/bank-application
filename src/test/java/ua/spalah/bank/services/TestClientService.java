@@ -10,7 +10,7 @@
 //import ua.spalah.bank.models.Client;
 //import ua.spalah.bank.models.accounts.Account;
 //import ua.spalah.bank.models.accounts.CheckingAccount;
-//import ua.spalah.bank.models.accounts.SavingAccount;
+//import ua.spalah.bank.models.accounts.Account;
 //import ua.spalah.bank.models.type.Gender;
 //import ua.spalah.bank.services.impl.ClientServiceImpl;
 //
@@ -34,11 +34,11 @@
 ////        bank.getAllClients().put("Misha", new Client("Misha", Gender.MALE, "mixa@ukr.net", "+380674567890", "Odessa"));
 ////        bank.getAllClients().put("Gera",  new Client("Gera", Gender.FEMALE, "gerahello@gmail.com", "+380964561234", "Dnipro"));
 ////        CheckingAccount c1 = new CheckingAccount(1000, 800);
-////        SavingAccount s1 = new SavingAccount(3000);
+////        Account s1 = new Account(3000);
 ////        CheckingAccount c2 = new CheckingAccount(17000, 7000);
-////        SavingAccount s2 = new SavingAccount(5000);
+////        Account s2 = new Account(5000);
 ////        CheckingAccount c3 = new CheckingAccount(2000, 1000);
-////        SavingAccount s3 = new SavingAccount(20000);
+////        Account s3 = new Account(20000);
 ////        bank.getAllClients().get("Kostya").getAccounts().add(c1);
 ////        bank.getAllClients().get("Kostya").getAccounts().add(s1);
 ////        bank.getAllClients().get("Misha").getAccounts().add(c2);
@@ -88,7 +88,7 @@
 //    @Test
 //    public void testAddAccount() {
 //        Client vasya = new Client("Vasya", Gender.MALE, "vasya@mail.ru", "+380675674567", "Lviv");
-//        Account sAcc = new SavingAccount(500);
+//        Account sAcc = new Account(500);
 //        vasya.getAccounts().add(sAcc);
 //        Client petya = new Client("Petya", Gender.MALE, "petya@mail.ru", "+380675674567", "Lviv");
 //        // accountService.addAccount(petya, sAcc);
@@ -97,7 +97,7 @@
 //    @Test
 //    public void testGetTotalBalance() {
 //        Client vasya = new Client("Vasya", Gender.MALE, "vasya@mail.ru", "+380675674567", "Lviv");
-//        Account sAcc = new SavingAccount(500);
+//        Account sAcc = new Account(500);
 //        Account chAcc = new CheckingAccount(600, 200);
 //        vasya.getAccounts().add(sAcc);
 //        vasya.getAccounts().add(chAcc);
@@ -106,7 +106,7 @@
 //    @Test
 //    public void testSelectActiveAccount() throws ClientNotHaveAccountException {
 //        Client vasya = new Client("Vasya", Gender.MALE, "vasya@mail.ru", "+380675674567", "Lviv");
-//        Account sAcc = new SavingAccount(500);
+//        Account sAcc = new Account(500);
 //        Account chAcc = new CheckingAccount(600, 200);
 //        vasya.getAccounts().add(sAcc);
 //        vasya.getAccounts().add(chAcc);

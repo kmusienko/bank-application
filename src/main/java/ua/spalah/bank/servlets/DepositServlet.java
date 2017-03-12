@@ -1,6 +1,5 @@
 package ua.spalah.bank.servlets;
 
-import ua.spalah.bank.models.Client;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.ClientService;
@@ -18,7 +17,7 @@ import java.io.IOException;
 public class DepositServlet extends HttpServlet {
     //Почему не работает метод doPost, если в account.jsp поставить method="post" ???
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext context = req.getSession().getServletContext();
         ClientService clientService = (ClientService) context.getAttribute("clientService");
         AccountService accountService = (AccountService) context.getAttribute("accountService");

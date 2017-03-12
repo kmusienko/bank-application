@@ -79,7 +79,7 @@ public class BankCommander {
 //                    overdraft = Double.parseDouble(accountTokens[3]);
 //                }
 //                switch (accountTokens[1]) {
-//                    case "SAVING" : account = new SavingAccount(balance); break;
+//                    case "SAVING" : account = new Account(balance); break;
 //                    case "CHECKING" : account = new CheckingAccount(balance, overdraft); break;
 //                    default: throw new IllegalArgumentException("Initialization error");
 //                }

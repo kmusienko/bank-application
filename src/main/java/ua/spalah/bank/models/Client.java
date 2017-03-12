@@ -1,8 +1,14 @@
 package ua.spalah.bank.models;
 
+import org.hibernate.annotations.*;
 import ua.spalah.bank.models.accounts.Account;
 import ua.spalah.bank.models.type.Gender;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,14 +16,26 @@ import java.util.Objects;
 /**
  * Created by Kostya on 23.12.2016.
  */
+@Entity
+@Table( name = "CLIENTS" )
 public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ACTIVE_ACCOUNT_ID", foreignKey = @ForeignKey(name = "FK_ACTIVE_ACC"))
     private Account activeAccount;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CLIENT_ID", foreignKey = @ForeignKey(name = "FK_CLIENT_ACC"))
     private List<Account> accounts = new ArrayList<>();
+    @Column(name = "EMAIL")
     private String email;
+    @Column(name = "TEL")
     private String tel;
+    @Column(name = "CITY")
     private String city;
 
     public Client() {
@@ -101,6 +119,13 @@ public class Client {
                 ",\n tel = " + tel +
                 ",\n city = " + city +
                 '}';
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     @Override
