@@ -48,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
         if (accountType == AccountType.SAVING) {
             if (amount > account.getBalance()) throw new NotEnoughFundsException(account.getBalance());
             account.setBalance(account.getBalance() - amount);
+            accountDao.update(account);
         } else if (accountType == AccountType.CHECKING) {
             double available = account.getBalance() + ((CheckingAccount) account).getOverdraft();
             if (available < amount) throw new OverdraftLimitExceededException(available);

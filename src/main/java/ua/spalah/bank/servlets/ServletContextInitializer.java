@@ -4,6 +4,8 @@ import ua.spalah.bank.dao.AccountDao;
 import ua.spalah.bank.dao.ClientDao;
 import ua.spalah.bank.dao.impl.AccountDaoImpl;
 import ua.spalah.bank.dao.impl.ClientDaoImpl;
+import ua.spalah.bank.hibernateDao.impl.HibernateAccountDaoImpl;
+import ua.spalah.bank.hibernateDao.impl.HibernateClientDaoImpl;
 import ua.spalah.bank.services.AccountService;
 import ua.spalah.bank.services.BankReportService;
 import ua.spalah.bank.services.ClientService;
@@ -11,6 +13,8 @@ import ua.spalah.bank.services.impl.AccountServiceImpl;
 import ua.spalah.bank.services.impl.BankReportServiceImpl;
 import ua.spalah.bank.services.impl.ClientServiceImpl;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -26,8 +30,14 @@ public class ServletContextInitializer implements ServletContextListener {
         try {
             Class.forName("org.h2.Driver");
             Connection connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/D:\\Programming\\SpalahJavaTasks\\BankApplication/dbbank", "sa", "");
-            AccountDao accountDao = new AccountDaoImpl(connection);
-            ClientDao clientDao = new ClientDaoImpl(connection, accountDao);
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bank-application");
+//            AccountDao accountDao = new AccountDaoImpl(connection);
+//            ClientDao clientDao = new ClientDaoImpl(connection, accountDao);
+//            ClientService clientService = new ClientServiceImpl(clientDao, accountDao);
+//            AccountService accountService = new AccountServiceImpl(accountDao, clientDao);
+//            BankReportService bankReportService = new BankReportServiceImpl(clientService, clientDao, accountDao);
+            AccountDao accountDao = new HibernateAccountDaoImpl(entityManagerFactory);
+            ClientDao clientDao = new HibernateClientDaoImpl(entityManagerFactory);
             ClientService clientService = new ClientServiceImpl(clientDao, accountDao);
             AccountService accountService = new AccountServiceImpl(accountDao, clientDao);
             BankReportService bankReportService = new BankReportServiceImpl(clientService, clientDao, accountDao);

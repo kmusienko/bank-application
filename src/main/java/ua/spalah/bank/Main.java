@@ -34,7 +34,6 @@ public class Main {
         client.getAccounts().add(acc2);
         client.getAccounts().add(acc3);
 
-
         entityManager.persist(client);
 
         entityManager.getTransaction().commit();

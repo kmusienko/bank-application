@@ -25,10 +25,10 @@ public class Client {
     private String name;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ACTIVE_ACCOUNT_ID", foreignKey = @ForeignKey(name = "FK_ACTIVE_ACC"))
     private Account activeAccount;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CLIENT_ID", foreignKey = @ForeignKey(name = "FK_CLIENT_ACC"))
     private List<Account> accounts = new ArrayList<>();
     @Column(name = "EMAIL")

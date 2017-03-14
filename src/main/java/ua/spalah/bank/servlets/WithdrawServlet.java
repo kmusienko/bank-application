@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class WithdrawServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext context = req.getSession().getServletContext();
         ClientService clientService = (ClientService) context.getAttribute("clientService");
         AccountService accountService = (AccountService) context.getAttribute("accountService");
